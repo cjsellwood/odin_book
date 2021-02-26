@@ -13,8 +13,8 @@ const mongoSanitize = require("express-mongo-sanitize");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcrypt");
-const User = require("./models/user")
-const flash = require("connect-flash")
+const User = require("./models/user");
+const flash = require("connect-flash");
 const session = require("express-session");
 
 // Define imported routes
@@ -22,7 +22,11 @@ const indexRouter = require("./routes/index");
 
 // Connect to database
 const dbUrl = "mongodb://localhost/odin_book";
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true,   useCreateIndex: true, });
+mongoose.connect(dbUrl, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
@@ -60,29 +64,33 @@ const sessionConfig = {
     httpOnly: true,
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
-  }
+  },
 };
 if (process.env.NODE_ENV === "production") {
-  sessionConfig.cookie.secure = true
+  sessionConfig.cookie.secure = true;
 }
 
-
 app.use(session(sessionConfig));
-
 
 // Flash messages to user
 app.use(flash());
 
 // Passport local strategy configuration
 passport.use(
-  new LocalStrategy(async (email, password, done) => {
-    const user = await User.findOne({ email });
-    const isValid = await bcrypt.compare(password, user.password);
-    if (!user || !isValid) {
-      return done(null, false, { message: "Incorrect username or password" });
+  new LocalStrategy(
+    {
+      usernameField: "email",
+      passwordField: "password",
+    },
+    async (email, password, done) => {
+      const user = await User.findOne({ email });
+      const isValid = await bcrypt.compare(password, user.password);
+      if (!user || !isValid) {
+        return done(null, false, { message: "Incorrect username or password" });
+      }
+      return done(null, user);
     }
-    return done(null, user);
-  })
+  )
 );
 
 // Required passport middleware
