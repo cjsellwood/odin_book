@@ -31,6 +31,9 @@ const userSchema = Schema({
     type: Date,
     required: true,
   },
+  birthDate: {
+    type: Date,
+  },
   friendRequests: [
     {
       type: Schema.Types.ObjectId,
@@ -45,4 +48,4 @@ const userSchema = Schema({
   ],
 });
 
-module.exports.User = new mongoose.model("User", userSchema);
+module.exports = mongoose.model("User", userSchema);

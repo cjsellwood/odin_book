@@ -19,7 +19,6 @@ db.once("open", () => {
   console.log("Database connected");
 });
 
-
 // Use imported routes
 app.use("/", indexRouter);
 
