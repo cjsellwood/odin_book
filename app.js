@@ -16,9 +16,12 @@ const bcrypt = require("bcrypt");
 const User = require("./models/user");
 const flash = require("connect-flash");
 const session = require("express-session");
+const compression = require("compression");
+const helmet = require("helmet");
 
 // Define imported routes
 const indexRouter = require("./routes/index");
+const postsRouter = require("./routes/posts");
 
 // Connect to database
 const dbUrl = "mongodb://localhost/odin_book";
@@ -51,6 +54,12 @@ app.use(
     replaceWith: "_",
   })
 );
+
+// Minimize size of app
+app.use(compression());
+
+// Secure app
+app.use(helmet());
 
 // Sessions configuration
 const sessionSecret = process.env.SESSION_SECRET || "sessionsecret";
@@ -119,6 +128,7 @@ app.use((req, res, next) => {
 
 // Use imported routes
 app.use("/", indexRouter);
+app.use("/posts", postsRouter);
 
 // Listen on hosted port or 3000
 const port = process.env.PORT || 3000;

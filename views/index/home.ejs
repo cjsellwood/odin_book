@@ -1,2 +1,10 @@
 <%- layout("layout/boilerplate") %>
 <h1>Home</h1>
+<a href="/posts/new">New Post</a>
+<% for (let post of posts) { %>
+<div>
+  <p><%= post.content %></p>
+  <p><%= post.author.fullName %></p>
+  <p><%= post.date %></p>
+</div>
+<% } %>

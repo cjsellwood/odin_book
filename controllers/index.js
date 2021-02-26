@@ -1,9 +1,17 @@
 const bcrypt = require("bcrypt");
-const User = require("../models/user")
+const Post = require("../models/post");
+const user = require("../models/user");
+const User = require("../models/user");
 
 // Show user friends posts
 module.exports.home = async (req, res, next) => {
-  res.render("index/home");
+  // Get posts from the current user
+  const posts = await Post.find({ author: req.user._id }).populate(
+    "author",
+    "firstName lastName fullName"
+  );
+  console.log(posts);
+  res.render("index/home", { posts });
 };
 
 // Get login form
@@ -15,8 +23,11 @@ module.exports.loginForm = (req, res) => {
 module.exports.loginUser = (req, res) => {
   console.log(req.body);
   const { email, password } = req.body;
-  req.flash("success", "Logged In")
-  res.redirect("/");
+  const url = req.session.returnTo || "/";
+  // Reset return to
+  delete req.session.returnTo;
+  req.flash("success", "Logged In");
+  res.redirect(url);
 };
 
 // Get register new user form
@@ -42,24 +53,24 @@ module.exports.registerUser = async (req, res, next) => {
     joinDate: Date.now(),
   });
 
-    // If mongoose error flash error and show register form again
-    try {
-      await user.save();
-    } catch (err) {
-      if (err.code === 11000) {
-        req.flash("error", "User already exists");
-      } else {
-        req.flash("error", "Something went wrong");
-      }
-      return res.redirect("/register");
+  // If mongoose error flash error and show register form again
+  try {
+    await user.save();
+  } catch (err) {
+    if (err.code === 11000) {
+      req.flash("error", "User already exists");
+    } else {
+      req.flash("error", "Something went wrong");
     }
+    return res.redirect("/register");
+  }
 
   // Login user
   req.login(user, (err) => {
     if (err) return next(err);
-  })
+  });
 
-  req.flash("success", "Registered and logged in")
+  req.flash("success", "Registered and logged in");
 
   res.redirect("/");
 };

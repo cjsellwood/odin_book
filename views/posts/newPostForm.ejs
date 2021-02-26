@@ -1,0 +1,9 @@
+<%- layout("layout/boilerplate") %>
+<h1>New Post</h1>
+<form action="/posts/new" method="POST">
+  <div>
+    <label for="content">Text</label>
+    <textarea id="content" name="content"></textarea>
+  </div>
+  <button>Submit</button>
+</form>

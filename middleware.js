@@ -1,7 +1,9 @@
+// Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
-  console.log(req.user);
   if (!req.user) {
-   return res.redirect("/login")
+    req.session.returnTo = req.originalUrl;
+    req.flash("error", "You must be signed in");
+    return res.redirect("/login");
   }
   next();
-}
+};
