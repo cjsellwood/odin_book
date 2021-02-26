@@ -4,7 +4,7 @@ const faker = require("faker");
 
 // Connect to database
 const dbUrl = "mongodb://localhost/odin_book";
-mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(dbUrl, { useNewUrlParser: true, useUnifiedTopology: true,   useCreateIndex: true, });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
