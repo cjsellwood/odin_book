@@ -8,4 +8,13 @@ router.get("/", index.home);
 // Get login form
 router.get("/login", index.loginForm);
 
+// Login user
+router.post("/login", index.loginUser)
+
+// Get register user form
+router.get('/register', index.registerForm);
+
+// Register new user
+router.post("/register", index.registerUser);
+
 module.exports = router;
