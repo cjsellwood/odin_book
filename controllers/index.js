@@ -1,15 +1,29 @@
 const bcrypt = require("bcrypt");
 const Post = require("../models/post");
-const user = require("../models/user");
 const User = require("../models/user");
 
 // Show user friends posts
 module.exports.home = async (req, res, next) => {
-  // Get posts from the current user
-  const posts = await Post.find({ author: req.user._id }).populate(
+  // Get current users friends list
+  const user = await User.findById(req.user._id);
+  const friends = [req.user._id, ...user.friends];
+
+  // Get posts from the current user and their friends
+  const posts = await Post.find({ author: { $in: friends } }).populate(
     "author",
     "firstName lastName fullName"
-  );
+  )
+  .populate({
+    path: "comments",
+    populate: {
+      path: "author",
+      select: "firstName lastName fullName",
+      model: "User",
+    }
+  });
+  
+  // Sort by most recent
+  posts.sort((a, b) => b.date - a.date);
   res.render("index/home", { posts });
 };
 
@@ -20,7 +34,6 @@ module.exports.loginForm = (req, res) => {
 
 // Login user
 module.exports.loginUser = (req, res) => {
-  const { email, password } = req.body;
   const url = req.session.returnTo || "/";
   // Reset return to
   delete req.session.returnTo;
@@ -31,8 +44,8 @@ module.exports.loginUser = (req, res) => {
 // Logout user
 module.exports.logoutUser = (req, res) => {
   req.logout();
-  res.redirect("/login")
-}
+  res.redirect("/login");
+};
 
 // Get register new user form
 module.exports.registerForm = (req, res) => {

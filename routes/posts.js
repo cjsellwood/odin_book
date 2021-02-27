@@ -1,15 +1,24 @@
-const express = require("express")
+const express = require("express");
 const router = express.Router();
-const posts = require("../controllers/posts")
-const {isLoggedIn} = require("../middleware")
+const posts = require("../controllers/posts");
+const { isLoggedIn } = require("../middleware");
 
 // Redirect to home page
-router.get("/", isLoggedIn, posts.home)
+router.get("/", isLoggedIn, posts.home);
 
 // Get new post form
-router.get("/new", isLoggedIn, posts.newPostForm)
+router.get("/new", isLoggedIn, posts.newPostForm);
 
 // Submit new post
-router.post("/new", isLoggedIn, posts.newPost)
+router.post("/new", isLoggedIn, posts.newPost);
+
+// Submit new comment
+router.post("/:id/new", isLoggedIn, posts.newComment);
+
+// Like a post
+router.post("/:id/like", isLoggedIn, posts.likePost);
+
+// Unlike a post
+router.post("/:id/unlike", isLoggedIn, posts.unlikePost);
 
 module.exports = router;

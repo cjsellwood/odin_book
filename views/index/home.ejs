@@ -2,9 +2,37 @@
 <h1>Home</h1>
 <a href="/posts/new">New Post</a>
 <% for (let post of posts) { %>
-<div>
+<div style="border: 1px solid black;">
   <p><%= post.content %></p>
   <p><%= post.author.fullName %></p>
-  <p><%= post.date %></p>
+  <p><%= post.sinceDate %></p>
+  <p>Likes: <%= post.likes.length %></p>
+  <% if (post.likes.includes(currentUser._id)) { %>
+    <form action="/posts/<%= post._id %>/unlike" method="POST">
+      <input type="hidden" name="postId" value="<%= post._id %>"/>
+      <button>Unlike</button>
+  </form> 
+  <% } else { %> 
+    <form action="/posts/<%= post._id %>/like" method="POST">
+      <input type="hidden" name="postId" value="<%= post._id %>"/>
+      <button>Like</button>
+  </form>  
+  <% } %>
+  <% for (let comment of post.comments) { %>
+  <div style="border: 1px solid green;">
+    <p><%= comment.content %></p>
+    <p><%= comment.author.fullName %></p>
+    <p><%= comment.sinceDate %></p>
+  </div>
+  <% } %>
+  <div>
+    <form action="/posts/<%= post._id %>/new" method="POST">
+      <div>
+        <label for="content">Comment</label>
+        <input name="content" id="content" type="text"/>
+        <button>Submit</button>
+      </div>
+    </form>
+  </div>
 </div>
 <% } %>
