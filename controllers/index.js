@@ -9,19 +9,17 @@ module.exports.home = async (req, res, next) => {
   const friends = [req.user._id, ...user.friends];
 
   // Get posts from the current user and their friends
-  const posts = await Post.find({ author: { $in: friends } }).populate(
-    "author",
-    "firstName lastName fullName"
-  )
-  .populate({
-    path: "comments",
-    populate: {
-      path: "author",
-      select: "firstName lastName fullName",
-      model: "User",
-    }
-  });
-  
+  const posts = await Post.find({ author: { $in: friends } })
+    .populate("author", "firstName lastName fullName")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "firstName lastName fullName",
+        model: "User",
+      },
+    });
+
   // Sort by most recent
   posts.sort((a, b) => b.date - a.date);
   res.render("index/home", { posts });
@@ -89,4 +87,31 @@ module.exports.registerUser = async (req, res, next) => {
   req.flash("success", "Registered and logged in");
 
   res.redirect("/");
+};
+
+// Get profile page of user
+module.exports.getProfile = async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  res.render("index/profile", { user });
+};
+
+// Get profile edit form
+module.exports.editProfileForm = async (req, res, next) => {
+  const user = await User.findById(req.user._id);
+  res.render("index/editProfileForm", { user });
+};
+
+// Update user profile from edit form submission
+module.exports.updateProfile = async (req, res, next) => {
+  const {edit} = req.body;
+  console.log(edit);
+  console.log(new Date(edit.birthDate), typeof new Date(edit.birthDate))
+  
+  // Update values
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    ...edit,
+    birthDate: new Date(edit.birthDate),
+  }, {new: true});
+  console.log(user);
+  res.redirect("/profile")
 };

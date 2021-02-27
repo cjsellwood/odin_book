@@ -29,4 +29,13 @@ router.get("/register", index.registerForm);
 // Register new user
 router.post("/register", index.registerUser);
 
+// Get profile page for user
+router.get("/profile", isLoggedIn, index.getProfile);
+
+// Get edit profile form
+router.get("/profile/edit", isLoggedIn, index.editProfileForm)
+
+// Submit edited user profile
+router.patch("/profile/edit", isLoggedIn, index.updateProfile)
+
 module.exports = router;
