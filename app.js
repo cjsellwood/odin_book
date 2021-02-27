@@ -22,6 +22,7 @@ const helmet = require("helmet");
 // Define imported routes
 const indexRouter = require("./routes/index");
 const postsRouter = require("./routes/posts");
+const friendsRouter = require("./routes/friends");
 
 // Connect to database
 const dbUrl = "mongodb://localhost/odin_book";
@@ -60,6 +61,27 @@ app.use(compression());
 
 // Secure app
 app.use(helmet());
+
+// Helmet configuration
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: [],
+      connectSrc: ["'self'"],
+      scriptSrc: ["'unsafe-inline'", "'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      workerSrc: ["'self'", "blob:"],
+      objectSrc: [],
+      imgSrc: [
+        "'self'",
+        "blob:",
+        "data:",
+        "https://placeimg.com",
+      ],
+      fontSrc: ["'self'"],
+    },
+  })
+);
 
 // Sessions configuration
 const sessionSecret = process.env.SESSION_SECRET || "sessionsecret";
@@ -129,6 +151,7 @@ app.use((req, res, next) => {
 // Use imported routes
 app.use("/", indexRouter);
 app.use("/posts", postsRouter);
+app.use("/friends", friendsRouter);
 
 // Listen on hosted port or 3000
 const port = process.env.PORT || 3000;

@@ -1,0 +1,7 @@
+<%- layout("layout/boilerplate") %>
+<h1><%= person.fullName %></h1>
+<img src="<%= person.avatarUrl %>" />
+<form action="/friends/request" method="POST">
+  <input type="hidden" name="person" value="<%= person._id %>" />
+  <button>Send Friend Request</button>
+</form>

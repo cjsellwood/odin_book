@@ -1,0 +1,21 @@
+<%- layout("layout/boilerplate") %>
+<h1>Friends</h1>
+<a href="/friends/find">Find New Friends</a>
+<% for (let friend of friends) {%>
+<div>
+  <a href="/friends/<%= friend._id %>"><%= friend.fullName %></a>
+  <img src="<%= friend.avatartUrl %>" />
+</div>
+<% } %>
+<h1>Friend Requests</h1>
+<% for (let request of requests) { %>
+  <div>
+    <a href="/friends/<%= request._id %>"><%= request.fullName %></a>
+    <img src="<%= request.avatarUrl %>"/>
+    <form action="/friends/accept" method="POST">
+      <input type="hidden" name="requesterId" value="<%= request._id%>"/>
+      <button>Accept Friend Request</button>
+    </form>
+</div>
+
+<% } %>

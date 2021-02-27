@@ -27,5 +27,4 @@ module.exports.newPost = async(req, res, next) => {
   await post.save();
   req.flash("success", "Post added")
   res.redirect("/")
-  console.log(post);
 }

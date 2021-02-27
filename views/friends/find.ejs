@@ -1,0 +1,14 @@
+<%- layout("layout/boilerplate") %>
+<h1>Find Friends</h1>
+<% for (let person of people) {%>
+<div>
+  <a href="/friends/<%= person._id %>"><%= person.fullName %></a>
+  <div>
+    <img src="<%= person.avatarUrl %>" />
+    <form action="/friends/request" method="POST">
+      <input type="hidden" name="personId" value="<%= person._id %>" />
+      <button>Send Friend Request</button>
+    </form>
+  </div>
+</div>
+<% } %>
