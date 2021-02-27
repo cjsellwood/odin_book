@@ -106,8 +106,6 @@ module.exports.editProfileForm = catchAsync(async (req, res, next) => {
 // Update user profile from edit form submission
 module.exports.updateProfile = catchAsync(async (req, res, next) => {
   const { edit } = req.body;
-  console.log(edit);
-  console.log(new Date(edit.birthDate), typeof new Date(edit.birthDate));
 
   // Update values
   const user = await User.findByIdAndUpdate(
@@ -118,6 +116,5 @@ module.exports.updateProfile = catchAsync(async (req, res, next) => {
     },
     { new: true }
   );
-  console.log(user);
   res.redirect("/profile");
 });
