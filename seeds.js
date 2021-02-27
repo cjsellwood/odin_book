@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const faker = require("faker");
+const Post = require('./models/post')
 
 // Connect to database
 const dbUrl = "mongodb://localhost/odin_book";
@@ -13,8 +14,9 @@ db.once("open", () => {
 
 // Generate random users
 const seedUsers = async () => {
+  await Post.deleteMany({});
   await User.deleteMany({});
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 5; i++) {
     const user = new User({
       firstName: faker.name.firstName(),
       lastName: faker.name.lastName(),
@@ -27,7 +29,6 @@ const seedUsers = async () => {
       birthDate: faker.date.past(),
     });
     await user.save();
-    console.log(user);
   }
 };
 

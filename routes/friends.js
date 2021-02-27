@@ -15,6 +15,9 @@ router.post("/request", isLoggedIn, friends.friendRequest);
 // Accept a friend request from another user
 router.post("/accept", isLoggedIn, friends.friendAccept);
 
+// Cancel a friend request
+router.post("/cancel", isLoggedIn, friends.cancelRequest);
+
 // Get single page of a user
 router.get("/:id", isLoggedIn, friends.userPage);
 

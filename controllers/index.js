@@ -10,7 +10,6 @@ module.exports.home = async (req, res, next) => {
     "author",
     "firstName lastName fullName"
   );
-  console.log(posts);
   res.render("index/home", { posts });
 };
 
@@ -21,7 +20,6 @@ module.exports.loginForm = (req, res) => {
 
 // Login user
 module.exports.loginUser = (req, res) => {
-  console.log(req.body);
   const { email, password } = req.body;
   const url = req.session.returnTo || "/";
   // Reset return to
@@ -30,6 +28,12 @@ module.exports.loginUser = (req, res) => {
   res.redirect(url);
 };
 
+// Logout user
+module.exports.logoutUser = (req, res) => {
+  req.logout();
+  res.redirect("/login")
+}
+
 // Get register new user form
 module.exports.registerForm = (req, res) => {
   res.render("index/registerForm");
@@ -37,7 +41,6 @@ module.exports.registerForm = (req, res) => {
 
 // Register new user
 module.exports.registerUser = async (req, res, next) => {
-  console.log(req.body);
   const { firstName, lastName, email, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
     req.flash("error", "Passwords do not match");

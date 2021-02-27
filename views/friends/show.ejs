@@ -1,7 +1,16 @@
 <%- layout("layout/boilerplate") %>
 <h1><%= person.fullName %></h1>
 <img src="<%= person.avatarUrl %>" />
+<% if (isFriend) { %>
+<p>You are friends</p>
+<% } else if (isPending){ %>
+<form action="/friends/cancel" method="POST">
+  <input type="hidden" name="personId" value="<%= person._id%>" />
+  <button>Cancel Friend Request</button>
+</form>
+<% } else {%>
 <form action="/friends/request" method="POST">
-  <input type="hidden" name="person" value="<%= person._id %>" />
+  <input type="hidden" name="personId" value="<%= person._id %>" />
   <button>Send Friend Request</button>
 </form>
+<% } %>
