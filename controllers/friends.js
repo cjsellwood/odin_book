@@ -1,7 +1,8 @@
 const User = require("../models/user");
+const catchAsync = require("../utils/catchAsync");
 
 // Get friends page
-module.exports.home = async (req, res, next) => {
+module.exports.home = catchAsync(async (req, res, next) => {
   const { id } = req.user;
   // Get list of friends and pending friend requests
   const user = await User.findById(id)
@@ -14,10 +15,10 @@ module.exports.home = async (req, res, next) => {
     sentRequests: user.sentRequests,
     requests: user.friendRequests,
   });
-};
+});
 
 // Get find friends page
-module.exports.findFriends = async (req, res, next) => {
+module.exports.findFriends = catchAsync(async (req, res, next) => {
   // Find friends or requests of current user to exclude them from results
   const user = await User.findById(req.user._id);
   const exclusions = [req.user._id, ...user.friends, ...user.sentRequests];
@@ -25,10 +26,10 @@ module.exports.findFriends = async (req, res, next) => {
   // Find people that are not friends or current user
   const people = await User.find({ _id: { $nin: exclusions } });
   res.render("friends/find", { people });
-};
+});
 
 // Get single user page
-module.exports.userPage = async (req, res, next) => {
+module.exports.userPage = catchAsync(async (req, res, next) => {
   const person = await User.findById(req.params.id);
 
   // Check if person is a friend for displaying page
@@ -39,10 +40,10 @@ module.exports.userPage = async (req, res, next) => {
   const isPending = user.sentRequests.includes(person._id);
 
   res.render("friends/show", { person, isFriend, isPending });
-};
+});
 
 // Submit friend request
-module.exports.friendRequest = async (req, res, next) => {
+module.exports.friendRequest = catchAsync(async (req, res, next) => {
   console.log(req.body);
   const { personId } = req.body;
 
@@ -58,10 +59,10 @@ module.exports.friendRequest = async (req, res, next) => {
    
   req.flash("success", "Request submitted")
   res.redirect("/friends");
-};
+});
 
 // Accept friend request
-module.exports.friendAccept = async (req, res, next) => {
+module.exports.friendAccept = catchAsync(async (req, res, next) => {
   const { requesterId } = req.body;
 
   // Remove friend request from current user
@@ -91,10 +92,10 @@ module.exports.friendAccept = async (req, res, next) => {
   req.flash("success", "You are now friends")
 
   res.redirect("/friends");
-};
+});
 
 // Cancel friend request
-module.exports.cancelRequest = async (req, res, next) => {
+module.exports.cancelRequest = catchAsync(async (req, res, next) => {
   const { personId } = req.body;
 
   // Remove sent request from current user
@@ -113,4 +114,4 @@ module.exports.cancelRequest = async (req, res, next) => {
 
   req.flash("success", "Canceled friend request")
   res.redirect("/friends");
-};
+});

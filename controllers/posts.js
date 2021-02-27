@@ -1,5 +1,6 @@
 const Post = require("../models/post");
 const Comment = require("../models/comment");
+const catchAsync = require("../utils/catchAsync");
 
 // Redirect to homepage
 module.exports.home = (req, res) => {
@@ -12,7 +13,7 @@ module.exports.newPostForm = (req, res) => {
 };
 
 // Submit new post data
-module.exports.newPost = async (req, res, next) => {
+module.exports.newPost = catchAsync(async (req, res, next) => {
   // Get post data from form and user info
   const { content } = req.body;
   const { id } = req.user;
@@ -28,10 +29,10 @@ module.exports.newPost = async (req, res, next) => {
   await post.save();
   req.flash("success", "Post added");
   res.redirect("/");
-};
+});
 
 // Submit new comment
-module.exports.newComment = async (req, res, next) => {
+module.exports.newComment = catchAsync(async (req, res, next) => {
   const { content } = req.body;
 
   // Create and save new comment
@@ -48,22 +49,22 @@ module.exports.newComment = async (req, res, next) => {
   });
 
   res.redirect("/");
-};
+});
 
 // Like a post
-module.exports.likePost = async (req, res, next) => {
+module.exports.likePost = catchAsync(async (req, res, next) => {
   const { postId } = req.body;
   const post = await Post.findByIdAndUpdate(postId, {
     $addToSet: { likes: req.user._id },
   });
-  res.redirect("/")
-};
+  res.redirect("/");
+});
 
 // Unlike a post
-module.exports.unlikePost = async( req, res, next) => {
-  const {postId} = req.body;
+module.exports.unlikePost = catchAsync(async (req, res, next) => {
+  const { postId } = req.body;
   const post = await Post.findByIdAndUpdate(postId, {
     $pull: { likes: req.user._id },
   });
-  res.redirect("/")
-}
+  res.redirect("/");
+});
