@@ -2,6 +2,7 @@
 <h1><%= person.fullName %></h1>
 <img src="<%= person.avatarUrl %>" />
 <% if (isFriend) { %>
+<p><%= person.city %><%= person.country ? ", " + person.country : null %></p>
 <form action="/friends/unfriend?_method=DELETE" method="POST">
   <input type="hidden" name="personId" value="<%= person._id%>" />
   <button>Unfriend</button>

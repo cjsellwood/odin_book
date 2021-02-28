@@ -22,7 +22,6 @@ const seedUsers = async () => {
       lastName: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      avatarUrl: "https://placeimg.com/200/200/people",
       city: faker.address.city(),
       country: faker.address.country(),
       joinDate: faker.date.recent(),

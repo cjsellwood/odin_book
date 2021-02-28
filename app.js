@@ -78,7 +78,7 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://placeimg.com",
+        'res.cloudinary.com/due9a2put/',
       ],
       fontSrc: ["'self'"],
     },
@@ -157,7 +157,7 @@ app.use("/friends", friendsRouter);
 
 // Handle not found error
 app.use("*", (req, res, next) => {
-  throw new ExpressError("Page not found", 404)
+  next(new ExpressError("Page not found", 404))
 })
 
 // Handle errors

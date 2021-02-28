@@ -2,6 +2,15 @@ const bcrypt = require("bcrypt");
 const Post = require("../models/post");
 const User = require("../models/user");
 const catchAsync = require("../utils/catchAsync");
+const sharp = require("sharp");
+const cloudinary = require("cloudinary").v2;
+const streamifier = require("streamifier");
+
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.CLOUD_API_KEY,
+  api_secret: process.env.CLOUD_API_SECRET,
+});
 
 // Show user friends posts
 module.exports.home = catchAsync(async (req, res, next) => {
@@ -105,16 +114,59 @@ module.exports.editProfileForm = catchAsync(async (req, res, next) => {
 
 // Update user profile from edit form submission
 module.exports.updateProfile = catchAsync(async (req, res, next) => {
+  // If image added
+  let uploaded;
+  if (req.file) {
+    const upload = async (buffer) => {
+      return new Promise((resolve, reject) => {
+        // Save to cloudinary
+        const upload_stream = cloudinary.uploader.upload_stream(
+          {
+            folder: `odin_book/${req.user._id}`,
+          },
+          (err, res) => {
+            if (res) {
+              resolve(res);
+            } else {
+              reject(err);
+            }
+          }
+        );
+        streamifier.createReadStream(image.data).pipe(upload_stream);
+      });
+    };
+
+    // Save to buffer for upload to cloudinary
+    const { buffer } = req.file;
+    const image = await sharp(buffer)
+      .resize(200, 200)
+      .webp()
+      .toBuffer({ resolveWithObject: true });
+
+    uploaded = await upload(image);
+  }
+
+  // Text form data
   const { edit } = req.body;
 
+  if (uploaded) {
+    edit.avatarUrl = uploaded.url;
+  }
+
   // Update values
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    {
-      ...edit,
-      birthDate: new Date(edit.birthDate),
-    },
-    { new: true }
-  );
+  const user = await User.findByIdAndUpdate(req.user._id, {
+    ...edit,
+    birthDate: new Date(edit.birthDate),
+  });
+
+  // Delete old avatar image from cloudinary
+  const splitUrl = user.avatarUrl.split("/");
+  const publicId = splitUrl
+    .slice(splitUrl.length - 3, splitUrl.length)
+    .join("/")
+    .replace(".webp", "");
+  cloudinary.uploader.destroy(publicId);
+
+  req.flash("success", "Successfully Updated");
   res.redirect("/profile");
 });

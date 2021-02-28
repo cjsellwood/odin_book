@@ -21,6 +21,7 @@ const userSchema = Schema({
   },
   avatarUrl: {
     type: String,
+    default: "/images/profile.png",
   },
   city: {
     type: String,

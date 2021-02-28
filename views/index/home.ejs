@@ -4,7 +4,7 @@
 <% for (let post of posts) { %>
 <div style="border: 1px solid black;">
   <p><%= post.content %></p>
-  <p><%= post.author.fullName %></p>
+  <a href="/friends/<%= post.author._id %>"><%= post.author.fullName %></a>
   <p><%= post.sinceDate %></p>
   <p>Likes: <%= post.likes.length %></p>
   <% if (post.likes.includes(currentUser._id)) { %>

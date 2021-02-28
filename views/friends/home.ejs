@@ -4,14 +4,18 @@
 <% for (let friend of friends) {%>
 <div>
   <a href="/friends/<%= friend._id %>"><%= friend.fullName %></a>
-  <img src="<%= friend.avatartUrl %>" />
+  <div>
+    <img src="<%= friend.avatarUrl %>" />
+  </div>
 </div>
 <% } %>
 <h1>Friend Requests</h1>
 <% for (let request of requests) { %>
 <div>
   <a href="/friends/<%= request._id %>"><%= request.fullName %></a>
-  <img src="<%= request.avatarUrl %>" />
+  <div>
+    <img src="<%= request.avatarUrl %>" />
+  </div>
   <form action="/friends/accept" method="POST">
     <input type="hidden" name="requesterId" value="<%= request._id%>" />
     <button>Accept Friend Request</button>

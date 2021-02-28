@@ -4,6 +4,13 @@ const index = require("../controllers/index");
 const passport = require("passport");
 const { isLoggedIn } = require("../middleware");
 
+const multer = require("multer");
+// Store to file
+// const upload = multer({ dest: "public/images/" });
+// Store to memory 
+const storage = multer.memoryStorage()
+const upload = multer({storage})
+
 // Home where posts by users friends are shown
 router.get("/", isLoggedIn, index.home);
 
@@ -33,9 +40,14 @@ router.post("/register", index.registerUser);
 router.get("/profile", isLoggedIn, index.getProfile);
 
 // Get edit profile form
-router.get("/profile/edit", isLoggedIn, index.editProfileForm)
+router.get("/profile/edit", isLoggedIn, index.editProfileForm);
 
 // Submit edited user profile
-router.patch("/profile/edit", isLoggedIn, index.updateProfile)
+router.patch(
+  "/profile/edit",
+  isLoggedIn,
+  upload.single("avatar"),
+  index.updateProfile
+);
 
 module.exports = router;
