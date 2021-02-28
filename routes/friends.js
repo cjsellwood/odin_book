@@ -21,4 +21,7 @@ router.post("/cancel", isLoggedIn, friends.cancelRequest);
 // Get single page of a user
 router.get("/:id", isLoggedIn, friends.userPage);
 
+// Unfriend a user
+router.delete("/unfriend", isLoggedIn, friends.unfriend);
+
 module.exports = router;

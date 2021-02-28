@@ -33,7 +33,7 @@ module.exports.userPage = catchAsync(async (req, res, next) => {
   // Get information on user and the person which the page is about
   const personQuery = User.findById(req.params.id);
   const userQuery = User.findById(req.user._id);
-  const [person, user] = await Promise.all([personQuery, userQuery])
+  const [person, user] = await Promise.all([personQuery, userQuery]);
 
   // Check if person is a friend for displaying page
   const isFriend = user.friends.includes(person._id);
@@ -58,7 +58,7 @@ module.exports.friendRequest = catchAsync(async (req, res, next) => {
     $addToSet: { sentRequests: personId },
   });
 
-  await Promise.all([personQuery, userQuery])
+  await Promise.all([personQuery, userQuery]);
 
   req.flash("success", "Request submitted");
   res.redirect("/friends");
@@ -110,7 +110,6 @@ module.exports.cancelRequest = catchAsync(async (req, res, next) => {
     },
   });
 
-
   // Remove received request from receiver
   const receiverRemove = User.findByIdAndUpdate(personId, {
     $pull: {
@@ -118,8 +117,31 @@ module.exports.cancelRequest = catchAsync(async (req, res, next) => {
     },
   });
 
-  await Promise.all([userRemove, receiverRemove])
+  await Promise.all([userRemove, receiverRemove]);
 
   req.flash("success", "Canceled friend request");
   res.redirect("/friends");
+});
+
+// Unfriend a current friend of the user
+module.exports.unfriend = catchAsync(async (req, res, next) => {
+  const { personId } = req.body;
+  console.log(req.body);
+
+  // Remove friend from current user friends list
+  const requesterRemove = User.findByIdAndUpdate(req.user._id, {
+    $pull: {
+      friends: personId,
+    },
+  });
+
+  // Remove friend from other persons friends list
+  const userRemove = User.findByIdAndUpdate(personId, {
+    $pull: {
+      friends: req.user._id,
+    },
+  });
+  await Promise.all([requesterRemove, userRemove])
+  req.flash("success", "You are no longer friends")
+  res.redirect(`/friends/${personId}`)
 });
