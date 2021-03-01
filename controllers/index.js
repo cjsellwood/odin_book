@@ -123,6 +123,7 @@ module.exports.updateProfile = catchAsync(async (req, res, next) => {
         const upload_stream = cloudinary.uploader.upload_stream(
           {
             folder: `odin_book/${req.user._id}`,
+            public_id: "avatar",
           },
           (err, res) => {
             if (res) {
@@ -132,7 +133,7 @@ module.exports.updateProfile = catchAsync(async (req, res, next) => {
             }
           }
         );
-        streamifier.createReadStream(image.data).pipe(upload_stream);
+        streamifier.createReadStream(buffer.data).pipe(upload_stream);
       });
     };
 
@@ -149,23 +150,30 @@ module.exports.updateProfile = catchAsync(async (req, res, next) => {
   // Text form data
   const { edit } = req.body;
 
+  // If there is a new avatar add it to values to update
   if (uploaded) {
     edit.avatarUrl = uploaded.url;
+  }
+
+  // If date not changed set as undefined else create as date type
+  if (!edit.birthDate) {
+    edit.birthDate = undefined;
+  } else {
+    edit.birthDate = new Date(edit.birthDate);
   }
 
   // Update values
   const user = await User.findByIdAndUpdate(req.user._id, {
     ...edit,
-    birthDate: new Date(edit.birthDate),
   });
 
-  // Delete old avatar image from cloudinary
-  const splitUrl = user.avatarUrl.split("/");
-  const publicId = splitUrl
-    .slice(splitUrl.length - 3, splitUrl.length)
-    .join("/")
-    .replace(".webp", "");
-  cloudinary.uploader.destroy(publicId);
+  // Delete old avatar image from cloudinary - don't need here as avatar is overwritten
+  // const splitUrl = user.avatarUrl.split("/");
+  // const publicId = splitUrl
+  //   .slice(splitUrl.length - 3, splitUrl.length)
+  //   .join("/")
+  //   .replace(".webp", "");
+  // cloudinary.uploader.destroy(publicId);
 
   req.flash("success", "Successfully Updated");
   res.redirect("/profile");

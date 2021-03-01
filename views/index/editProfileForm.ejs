@@ -47,8 +47,9 @@
     </div>
     <div>
       <label for="birthDate">Birth Date</label>
-      <input type="date" value="<%= user.birthDate.toISOString().split("T")[0]
-      %>" id="birthDate" name="edit[birthDate]" />
+      <input type="date" value="<%= user.birthDate ?
+      user.birthDate.toISOString().split("T")[0] : "" %>" id="birthDate"
+      name="edit[birthDate]" />
     </div>
     <button>Submit</button>
   </form>

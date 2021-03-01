@@ -10,6 +10,6 @@
   <p>Email: <%= user.email %></p>
   <p>City: <%= user.city %></p>
   <p>Country: <%= user.country %></p>
-  <p>Birth Date: <%= user.birthDate.toLocaleDateString() %></p>
+  <p>Birth Date: <%= user.birthDate ? user.birthDate.toLocaleDateString() : "" %></p>
 </div>
 <a href="/profile/edit">Edit</a>

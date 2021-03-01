@@ -2,6 +2,9 @@ const express = require("express");
 const router = express.Router();
 const posts = require("../controllers/posts");
 const { isLoggedIn } = require("../middleware");
+const multer = require("multer");
+const storage = multer.memoryStorage()
+const upload = multer({storage})
 
 // Redirect to home page
 router.get("/", isLoggedIn, posts.home);
@@ -10,7 +13,7 @@ router.get("/", isLoggedIn, posts.home);
 router.get("/new", isLoggedIn, posts.newPostForm);
 
 // Submit new post
-router.post("/new", isLoggedIn, posts.newPost);
+router.post("/new", isLoggedIn, upload.single("image"), posts.newPost);
 
 // Submit new comment
 router.post("/:id/new", isLoggedIn, posts.newComment);

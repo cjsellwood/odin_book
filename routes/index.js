@@ -5,9 +5,6 @@ const passport = require("passport");
 const { isLoggedIn } = require("../middleware");
 
 const multer = require("multer");
-// Store to file
-// const upload = multer({ dest: "public/images/" });
-// Store to memory 
 const storage = multer.memoryStorage()
 const upload = multer({storage})
 
