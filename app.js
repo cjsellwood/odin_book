@@ -157,13 +157,18 @@ app.use("/friends", friendsRouter);
 
 // Handle not found error
 app.use("*", (req, res, next) => {
-  next(new ExpressError("Page not found", 404))
+  next(new ExpressError("Page not found", 404, false))
 })
 
 // Handle errors
 app.use((err, req, res, next) => {
   console.log("ERROR MESSAGE", err.message)
-  res.status(err.statusCode).render("error", {err})
+  if (err.redirect) {
+    req.flash("error", err.message)
+    res.status(err.statusCode).redirect(err.redirect)
+  } else {
+    res.status(err.statusCode).render("error", {err})
+  }
 })
 
 // Listen on hosted port or 3000

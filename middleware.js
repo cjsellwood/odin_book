@@ -1,5 +1,7 @@
 const Post = require("./models/post");
-const Comment = require("./models/comment")
+const Comment = require("./models/comment");
+const { registerSchema, editProfileSchema } = require("./joi");
+const ExpressError = require("./utils/ExpressError");
 
 // Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
@@ -29,6 +31,32 @@ module.exports.isCommentAuthor = async (req, res, next) => {
   if (comment.author.toString() !== req.user._id.toString()) {
     req.flash("error", "You are not authorized to do that");
     return res.redirect("/");
+  }
+  next();
+};
+
+// Validate register form
+module.exports.validateRegister = (req, res, next) => {
+  const isValid = registerSchema.validate(req.body);
+  if (isValid.error) {
+    req.flash(
+      "error",
+      isValid.error.details.map((error) => error.message).join(",")
+    );
+    return res.redirect("/register");
+  }
+  next();
+};
+
+// Validate edit profile form
+module.exports.validateEditProfile = (req, res, next) => {
+  const isValid = editProfileSchema.validate(req.body.edit);
+  if (isValid.error) {
+    req.flash(
+      "error",
+      isValid.error.details.map((error) => error.message).join(",")
+    );
+    return res.redirect("/profile/edit");
   }
   next();
 };

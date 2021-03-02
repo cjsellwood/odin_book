@@ -2,11 +2,30 @@ const express = require("express");
 const router = express.Router();
 const index = require("../controllers/index");
 const passport = require("passport");
-const { isLoggedIn } = require("../middleware");
+const {
+  isLoggedIn,
+  validateRegister,
+  validateEditProfile,
+} = require("../middleware");
+const ExpressError = require("../utils/ExpressError");
 
 const multer = require("multer");
-const storage = multer.memoryStorage()
-const upload = multer({storage})
+const storage = multer.memoryStorage();
+const upload = multer({
+  storage,
+  limits: { fileSize: 100 * 10 ** 6 },
+  fileFilter: (req, file, cb) => {
+    // Make sure uploaded file is an image
+    const extension = file.mimetype.split("/")[1];
+    console.log(file);
+    const allowed = ["jpg", "jpeg", "png", "webp", "gif", "svg+xml", "avif"];
+    if (allowed.includes(extension)) {
+      return cb(null, true);
+    } else {
+      return cb(new ExpressError("File type not allowed", 400, "/profile/edit"));
+    }
+  },
+});
 
 // Home where posts by users friends are shown
 router.get("/", isLoggedIn, index.home);
@@ -31,7 +50,7 @@ router.get("/logout", index.logoutUser);
 router.get("/register", index.registerForm);
 
 // Register new user
-router.post("/register", index.registerUser);
+router.post("/register", validateRegister, index.registerUser);
 
 // Get profile page for user
 router.get("/profile", isLoggedIn, index.getProfile);
@@ -44,6 +63,7 @@ router.patch(
   "/profile/edit",
   isLoggedIn,
   upload.single("avatar"),
+  validateEditProfile,
   index.updateProfile
 );
 
