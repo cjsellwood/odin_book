@@ -17,7 +17,6 @@ const upload = multer({
   fileFilter: (req, file, cb) => {
     // Make sure uploaded file is an image
     const extension = file.mimetype.split("/")[1];
-    console.log(file);
     const allowed = ["jpg", "jpeg", "png", "webp", "gif", "svg+xml", "avif"];
     if (allowed.includes(extension)) {
       return cb(null, true);

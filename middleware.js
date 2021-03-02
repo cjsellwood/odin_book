@@ -1,6 +1,6 @@
 const Post = require("./models/post");
 const Comment = require("./models/comment");
-const { registerSchema, editProfileSchema } = require("./joi");
+const { registerSchema, editProfileSchema, postSchema, commentSchema } = require("./joi");
 const ExpressError = require("./utils/ExpressError");
 
 // Check if user is logged in
@@ -60,3 +60,29 @@ module.exports.validateEditProfile = (req, res, next) => {
   }
   next();
 };
+
+// Validate new post
+module.exports.validatePost = (req, res, next) => {
+  const isValid = postSchema.validate(req.body)
+  if (isValid.error) {
+    req.flash(
+      "error",
+      isValid.error.details.map((error) => error.message).join(",")
+    );
+    return res.redirect("/new");
+  }
+  next();
+}
+
+// Validate new comment
+module.exports.validateComment = (req, res, next) => {
+  const isValid = commentSchema.validate(req.body)
+  if (isValid.error) {
+    req.flash(
+      "error",
+      isValid.error.details.map((error) => error.message).join(",")
+    );
+    return res.redirect("/");
+  }
+  next();
+}

@@ -15,3 +15,11 @@ module.exports.editProfileSchema = Joi.object({
   country: Joi.string(),
   birthDate: Joi.string(),
 }).required();
+
+module.exports.postSchema = Joi.object({
+  content: Joi.string().required(),
+}).required();
+
+module.exports.commentSchema = Joi.object({
+  content: Joi.string().required(),
+}).required();
