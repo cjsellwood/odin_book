@@ -21,7 +21,12 @@ module.exports.home = catchAsync(async (req, res, next) => {
 module.exports.findFriends = catchAsync(async (req, res, next) => {
   // Find friends or requests of current user to exclude them from results
   const user = await User.findById(req.user._id);
-  const exclusions = [req.user._id, ...user.friends, ...user.sentRequests];
+  const exclusions = [
+    req.user._id,
+    ...user.friends,
+    ...user.sentRequests,
+    ...user.friendRequests,
+  ];
 
   // Find people that are not friends or current user
   const people = await User.find({ _id: { $nin: exclusions } });
@@ -32,7 +37,7 @@ module.exports.findFriends = catchAsync(async (req, res, next) => {
 module.exports.userPage = catchAsync(async (req, res, next) => {
   // Redirect to profile page if it is the current user
   if (req.params.id.toString() === req.user._id.toString()) {
-    return res.redirect("/profile")
+    return res.redirect("/profile");
   }
 
   // Get information on user and the person which the page is about
@@ -146,7 +151,7 @@ module.exports.unfriend = catchAsync(async (req, res, next) => {
       friends: req.user._id,
     },
   });
-  await Promise.all([requesterRemove, userRemove])
-  req.flash("success", "You are no longer friends")
-  res.redirect(`/friends/${personId}`)
+  await Promise.all([requesterRemove, userRemove]);
+  req.flash("success", "You are no longer friends");
+  res.redirect(`/friends/${personId}`);
 });

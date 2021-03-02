@@ -3,14 +3,14 @@
 <a href="/posts/new">New Post</a>
 <% for (let post of posts) { %>
 <div style="border: 1px solid black">
-  <p><%= post.content %></p>
-  <a href="/friends/<%= post.author._id %>"><%= post.author.fullName %></a>
-  <p><%= post.sinceDate %></p>
   <% if (post.imageUrl) { %>
   <div>
     <img src="<%= post.imageUrl %>" />
   </div>
   <% } %>
+  <p><%= post.content %></p>
+  <a href="/friends/<%= post.author._id %>"><%= post.author.fullName %></a>
+  <p><%= post.sinceDate %></p>
   <p>Likes: <%= post.likes.length %></p>
   <% if (post.likes.includes(currentUser._id)) { %>
   <form action="/posts/<%= post._id %>/unlike" method="POST">
@@ -20,7 +20,8 @@
   <form action="/posts/<%= post._id %>/like" method="POST">
     <button>Like</button>
   </form>
-  <% } %> <% if (currentUser._id.toString() === post.author._id.toString()) { %>
+  <% } %> 
+  <% if (currentUser._id.toString() === post.author._id.toString()) { %>
   <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
     <button>Delete</button>
   </form>
@@ -28,12 +29,21 @@
    <% for (let comment of post.comments) { %>
   <div style="border: 1px solid green">
     <p><%= comment.content %></p>
-    <a href="/friends/<%= comment.author._id %>"><%= comment.author.fullName %></a>
+    <a href="/friends/<%= comment.author._id %>"
+      ><%= comment.author.fullName %></a>
     <p><%= comment.sinceDate %></p>
+    <% if (currentUser._id.toString() === comment.author._id.toString()) { %>
+    <form
+      action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+      method="POST"
+    >
+      <button>Delete</button>
+    </form>
+    <% }%>
   </div>
   <% } %>
   <div>
-    <form action="/posts/<%= post._id %>/new" method="POST">
+    <form action="/posts/<%= post._id %>/comment" method="POST">
       <div>
         <label for="content">Comment</label>
         <input name="content" id="content" type="text" />

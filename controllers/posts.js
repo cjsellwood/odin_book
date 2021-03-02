@@ -4,7 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const sharp = require("sharp");
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
-const ExpressError = require("../utils/ExpressError")
+const ExpressError = require("../utils/ExpressError");
 
 // Redirect to homepage
 module.exports.home = (req, res) => {
@@ -100,7 +100,7 @@ module.exports.newComment = catchAsync(async (req, res, next) => {
 
 // Like a post
 module.exports.likePost = catchAsync(async (req, res, next) => {
-  const  postId  = req.params.id;
+  const postId = req.params.id;
   const post = await Post.findByIdAndUpdate(postId, {
     $addToSet: { likes: req.user._id },
   });
@@ -109,7 +109,7 @@ module.exports.likePost = catchAsync(async (req, res, next) => {
 
 // Unlike a post
 module.exports.unlikePost = catchAsync(async (req, res, next) => {
-  const  postId  = req.params.id;
+  const postId = req.params.id;
   const post = await Post.findByIdAndUpdate(postId, {
     $pull: { likes: req.user._id },
   });
@@ -131,7 +131,25 @@ module.exports.deletePost = catchAsync(async (req, res, next) => {
     cloudinary.uploader.destroy(publicId);
   }
 
-
-  req.flash("success", "Deleted Post")
+  req.flash("success", "Deleted Post");
   res.redirect("/");
-})
+});
+
+// Delete a comment by current user
+module.exports.deleteComment = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  const commentId = req.params.commentId;
+
+  // Delete comment
+  await Comment.findByIdAndDelete(commentId);
+
+  // Delete comment from posts' comments
+  await Post.findByIdAndUpdate(postId, {
+    $pull: {
+      comments: commentId,
+    },
+  });
+
+  req.flash("success", "Deleted Comment")
+  res.redirect("/");
+});

@@ -1,4 +1,5 @@
-const Post = require("./models/post")
+const Post = require("./models/post");
+const Comment = require("./models/comment")
 
 // Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
@@ -10,13 +11,24 @@ module.exports.isLoggedIn = (req, res, next) => {
   next();
 };
 
-// Check if user if author of post before allowing modification
-module.exports.isAuthor = async (req, res, next) => {
+// Check if user is author of post before allowing modification
+module.exports.isPostAuthor = async (req, res, next) => {
   const postId = req.params.id;
-  const post = await Post.findById(postId)
-  if (!post.author.toString() === req.user._id.toString()) {
+  const post = await Post.findById(postId);
+  if (post.author.toString() !== req.user._id.toString()) {
     req.flash("error", "You are not authorized to do that");
-    return res.redirect("/")
+    return res.redirect("/");
   }
   next();
-}
+};
+
+// Check if user is author of comment before allowing modification
+module.exports.isCommentAuthor = async (req, res, next) => {
+  const commentId = req.params.commentId;
+  const comment = await Comment.findById(commentId);
+  if (comment.author.toString() !== req.user._id.toString()) {
+    req.flash("error", "You are not authorized to do that");
+    return res.redirect("/");
+  }
+  next();
+};
