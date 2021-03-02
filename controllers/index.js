@@ -167,14 +167,6 @@ module.exports.updateProfile = catchAsync(async (req, res, next) => {
     ...edit,
   });
 
-  // Delete old avatar image from cloudinary - don't need here as avatar is overwritten
-  // const splitUrl = user.avatarUrl.split("/");
-  // const publicId = splitUrl
-  //   .slice(splitUrl.length - 3, splitUrl.length)
-  //   .join("/")
-  //   .replace(".webp", "");
-  // cloudinary.uploader.destroy(publicId);
-
   req.flash("success", "Successfully Updated");
   res.redirect("/profile");
 });

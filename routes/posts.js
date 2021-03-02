@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const posts = require("../controllers/posts");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, isAuthor } = require("../middleware");
 const multer = require("multer");
 const storage = multer.memoryStorage()
 const upload = multer({storage})
@@ -23,5 +23,8 @@ router.post("/:id/like", isLoggedIn, posts.likePost);
 
 // Unlike a post
 router.post("/:id/unlike", isLoggedIn, posts.unlikePost);
+
+// Delete a post
+router.delete("/:id", isLoggedIn, isAuthor, posts.deletePost);
 
 module.exports = router;

@@ -30,6 +30,11 @@ module.exports.findFriends = catchAsync(async (req, res, next) => {
 
 // Get single user page
 module.exports.userPage = catchAsync(async (req, res, next) => {
+  // Redirect to profile page if it is the current user
+  if (req.params.id.toString() === req.user._id.toString()) {
+    return res.redirect("/profile")
+  }
+
   // Get information on user and the person which the page is about
   const personQuery = User.findById(req.params.id);
   const userQuery = User.findById(req.user._id);

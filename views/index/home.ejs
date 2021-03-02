@@ -14,18 +14,21 @@
   <p>Likes: <%= post.likes.length %></p>
   <% if (post.likes.includes(currentUser._id)) { %>
   <form action="/posts/<%= post._id %>/unlike" method="POST">
-    <input type="hidden" name="postId" value="<%= post._id %>" />
     <button>Unlike</button>
   </form>
   <% } else { %>
   <form action="/posts/<%= post._id %>/like" method="POST">
-    <input type="hidden" name="postId" value="<%= post._id %>" />
     <button>Like</button>
   </form>
-  <% } %> <% for (let comment of post.comments) { %>
+  <% } %> <% if (currentUser._id.toString() === post.author._id.toString()) { %>
+  <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+    <button>Delete</button>
+  </form>
+  <% } %>
+   <% for (let comment of post.comments) { %>
   <div style="border: 1px solid green">
     <p><%= comment.content %></p>
-    <p><%= comment.author.fullName %></p>
+    <a href="/friends/<%= comment.author._id %>"><%= comment.author.fullName %></a>
     <p><%= comment.sinceDate %></p>
   </div>
   <% } %>

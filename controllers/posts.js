@@ -4,6 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const sharp = require("sharp");
 const cloudinary = require("cloudinary").v2;
 const streamifier = require("streamifier");
+const ExpressError = require("../utils/ExpressError")
 
 // Redirect to homepage
 module.exports.home = (req, res) => {
@@ -20,8 +21,6 @@ module.exports.newPost = catchAsync(async (req, res, next) => {
   // Get post data from form and user info
   const { content } = req.body;
   const { id } = req.user;
-
-  console.log("FILE", req.file);
 
   // If image added
   let uploaded;
@@ -57,8 +56,6 @@ module.exports.newPost = catchAsync(async (req, res, next) => {
 
     uploaded = await upload(image);
   }
-
-  console.log("UPLOADED", uploaded);
 
   // Values to update
   const updatedValues = {
@@ -103,7 +100,7 @@ module.exports.newComment = catchAsync(async (req, res, next) => {
 
 // Like a post
 module.exports.likePost = catchAsync(async (req, res, next) => {
-  const { postId } = req.body;
+  const  postId  = req.params.id;
   const post = await Post.findByIdAndUpdate(postId, {
     $addToSet: { likes: req.user._id },
   });
@@ -112,9 +109,29 @@ module.exports.likePost = catchAsync(async (req, res, next) => {
 
 // Unlike a post
 module.exports.unlikePost = catchAsync(async (req, res, next) => {
-  const { postId } = req.body;
+  const  postId  = req.params.id;
   const post = await Post.findByIdAndUpdate(postId, {
     $pull: { likes: req.user._id },
   });
   res.redirect("/");
 });
+
+// Delete a post created by the current user
+module.exports.deletePost = catchAsync(async (req, res, next) => {
+  const postId = req.params.id;
+  const deleted = await Post.findByIdAndDelete(postId);
+
+  // Delete image if post contains one
+  if (deleted.imageUrl) {
+    const splitUrl = deleted.imageUrl.split("/");
+    const publicId = splitUrl
+      .slice(splitUrl.length - 3, splitUrl.length)
+      .join("/")
+      .replace(".webp", "");
+    cloudinary.uploader.destroy(publicId);
+  }
+
+
+  req.flash("success", "Deleted Post")
+  res.redirect("/");
+})
