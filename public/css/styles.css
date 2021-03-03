@@ -149,6 +149,7 @@ body * {
   all: unset;
   top: 51px;
   position: absolute;
+  z-index: 10;
   display: none;
   background-color: rgba(46, 43, 43, 0.842);
   width: 100vw;
@@ -334,6 +335,54 @@ body * {
 .form button:hover {
   color: white;
   background-color: #01aa01;
+}
+
+.flash-message {
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
+.flash-message div {
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  padding: 15px 50px;
+  position: relative;
+  cursor: pointer;
+  min-width: 200px;
+}
+.flash-message button {
+  position: absolute;
+  z-index: 1;
+  right: 0;
+  top: 0;
+  border: none;
+  outline: none;
+  background-color: transparent;
+  font-size: 1.4rem;
+  color: black;
+  height: 46px;
+  width: 46px;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+.flash-message .success {
+  color: #008500;
+  background-color: #f4fff0;
+  border: 1px solid #008500;
+}
+.flash-message .error {
+  color: #e60000;
+  border: 1px solid #e60000;
+  background-color: #ffeeee;
 }
 
 /*# sourceMappingURL=styles.css.map */
