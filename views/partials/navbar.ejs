@@ -1,21 +1,49 @@
 <nav class="navbar">
-  <ul>
-    <li>
-      <a href="/">Odin Book</a>
-    </li>
-    <% if (currentUser) {%>
+  <div class="menu-button" id="menu-button">
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div class="mobile-menu">
+    <ul>
+      <% if (currentUser) {%>
       <li>
         <a href="/friends">Friends</a>
       </li>
 
-      <li>
+      <li class="right-align">
         <a href="/profile">Profile</a>
       </li>
+      <li>
+        <a href="/logout">Logout</a>
+      </li>
+      <% } else { %>
+      <li class="right-align">
+        <a href="/login">Login</a>
+      </li>
+      <li>
+        <a href="/register">Register</a>
+      </li>
+      <% } %>
+    </ul>
+  </div>
+  <ul>
+    <li class="brand">
+      <a href="/">Odin Book</a>
+    </li>
+    <% if (currentUser) {%>
+    <li>
+      <a href="/friends">Friends</a>
+    </li>
+
+    <li class="right-align">
+      <a href="/profile">Profile</a>
+    </li>
     <li>
       <a href="/logout">Logout</a>
     </li>
     <% } else { %>
-    <li>
+    <li class="right-align">
       <a href="/login">Login</a>
     </li>
     <li>
