@@ -30,7 +30,9 @@ const upload = multer({
 router.get("/", isLoggedIn, posts.home);
 
 // Get new post form
-router.get("/new", isLoggedIn, posts.newPostForm);
+router.get("/new", 
+isLoggedIn, 
+posts.newPostForm);
 
 // Submit new post
 router.post(

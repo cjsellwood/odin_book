@@ -193,6 +193,24 @@ body {
     -o-border-radius: 5px;
     outline: none;
   }
+  textarea {
+    &:focus {
+      border: 2px solid rgba(70, 98, 255, 0.527);
+      padding: 9px;
+    }
+    display: block;
+    padding: 10px;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    width: 100%;
+    border: 1px solid rgb(199, 199, 199);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    outline: none;
+  }
   button {
     &:hover {
       color: white;
@@ -266,10 +284,40 @@ body {
     background-color: rgb(244, 255, 240);
     border: 1px solid rgb(0, 133, 0);
   }
-  
+
   .error {
     color: rgb(230, 0, 0);
     border: 1px solid rgb(230, 0, 0);
     background-color: rgb(255, 238, 238);
   }
+}
+
+#preview-image-container {
+  width: 100%;
+  height: auto;
+  margin-bottom: 20px;
+  display: flex;
+  justify-content: center;
+
+  img {
+    max-width: 500px;
+    max-height: 500px;
+  }
+}
+
+#preview-image-container.avatar {
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+#current-image {
+  display: flex;
+  justify-content: center;
 }

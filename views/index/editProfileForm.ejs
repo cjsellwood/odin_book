@@ -1,56 +1,68 @@
 <%- layout("layout/boilerplate") %>
-<h1>Your Profile</h1>
-<h3><%= user.fullName %></h3>
-<div>
-  <img src="<%= user.avatarUrl %>" />
-</div>
-<div>
-  <form
-    action="/profile/edit?_method=PATCH"
-    method="POST"
-    enctype="multipart/form-data"
-  >
-    <div>
-      <label for="avatar">Profile Picture</label>
-      <input type="file" name="avatar" />
+<section class="form-wrapper">
+  <div>
+    <h1>Your Profile</h1>
+    <div id="current-image">
+    </div>
+    <div id="preview-image-container" class="avatar">
+      <img src="<%= user.avatarUrl %>" />
     </div>
     <div>
-      <label for="firstName">First Name</label>
-      <input
-        type="text"
-        value="<%= user.firstName %>"
-        id="firstName"
-        name="edit[firstName]"
-      />
+      <form
+        class="form"
+        action="/profile/edit?_method=PATCH"
+        method="POST"
+        enctype="multipart/form-data"
+      >
+        <div>
+          <label for="image">Profile Picture</label>
+          <input type="file" name="image" id="image" />
+        </div>
+        <div>
+          <label for="firstName">First Name</label>
+          <input
+            type="text"
+            value="<%= user.firstName %>"
+            id="firstName"
+            name="edit[firstName]"
+          />
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input
+            type="text"
+            value="<%= user.lastName %>"
+            id="lastName"
+            name="edit[lastName]"
+          />
+        </div>
+        <div>
+          <label for="city">City</label>
+          <input
+            type="text"
+            value="<%= user.city %>"
+            id="city"
+            name="edit[city]"
+          />
+        </div>
+        <div>
+          <label for="country">Country</label>
+          <input
+            type="text"
+            value="<%= user.country %>"
+            id="country"
+            name="edit[country]"
+          />
+        </div>
+        <div>
+          <label for="birthDate">Birth Date</label>
+          <input type="date" value="<%= user.birthDate ?
+          user.birthDate.toISOString().split("T")[0] : "" %>" id="birthDate"
+          name="edit[birthDate]" />
+        </div>
+        <button>Submit</button>
+      </form>
     </div>
-    <div>
-      <label for="lastName">Last Name</label>
-      <input
-        type="text"
-        value="<%= user.lastName %>"
-        id="lastName"
-        name="edit[lastName]"
-      />
-    </div>
-    <div>
-      <label for="city">City</label>
-      <input type="text" value="<%= user.city %>" id="city" name="edit[city]" />
-    </div>
-    <div>
-      <label for="country">Country</label>
-      <input
-        type="text"
-        value="<%= user.country %>"
-        id="country"
-        name="edit[country]"
-      />
-    </div>
-    <div>
-      <label for="birthDate">Birth Date</label>
-      <input type="date" value="<%= user.birthDate ?
-      user.birthDate.toISOString().split("T")[0] : "" %>" id="birthDate"
-      name="edit[birthDate]" />
-    </div>
-    <button>Submit</button>
-  </form>
-</div>
+  </div>
+</section>
+<script src="/js/showImage.js"></script>

@@ -188,4 +188,11 @@ app.listen(port, () => {
 });
 
 // client validation
-// styles
+// styles {
+// /profile
+// /friends/:id
+// /friends/find
+// /friends
+// /
+// possibly file chooser
+// }

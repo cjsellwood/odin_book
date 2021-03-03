@@ -1,13 +1,24 @@
 <%- layout("layout/boilerplate") %>
-<h1>New Post</h1>
-<form action="/posts/new" method="POST" enctype="multipart/form-data">
+<section class="form-wrapper">
   <div>
-    <label for="image">Add Image</label>
-    <input type="file" id="image" name="image" />
+    <h1>New Post</h1>
+    <div id="preview-image-container"></div>
+    <form
+      class="form"
+      action="/posts/new"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <div>
+        <label for="image">Add Image</label>
+        <input type="file" id="image" name="image" />
+      </div>
+      <div>
+        <label for="content">Text</label>
+        <textarea id="content" name="content" rows="6"></textarea>
+      </div>
+      <button>Submit</button>
+    </form>
   </div>
-  <div>
-    <label for="content">Text</label>
-    <textarea id="content" name="content"></textarea>
-  </div>
-  <button>Submit</button>
-</form>
+</section>
+<script src="/js/showImage.js"></script>

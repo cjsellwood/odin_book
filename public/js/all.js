@@ -15,4 +15,7 @@ const flash = document.querySelector(".flash-message")
 function dismissFlash() {
   flash.remove();
 }
-flash.addEventListener("click", dismissFlash)
+if (flash) {
+  flash.addEventListener("click", dismissFlash)
+
+}

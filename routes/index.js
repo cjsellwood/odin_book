@@ -61,7 +61,7 @@ router.get("/profile/edit", isLoggedIn, index.editProfileForm);
 router.patch(
   "/profile/edit",
   isLoggedIn,
-  upload.single("avatar"),
+  upload.single("image"),
   validateEditProfile,
   index.updateProfile
 );
