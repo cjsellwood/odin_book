@@ -18,7 +18,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const compression = require("compression");
 const helmet = require("helmet");
-const ExpressError = require("./utils/ExpressError")
+const ExpressError = require("./utils/ExpressError");
 
 // Define imported routes
 const indexRouter = require("./routes/index");
@@ -69,17 +69,12 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: [],
-      connectSrc: ["'self'"],
-      scriptSrc: ["'unsafe-inline'", "'self'"],
+      connectSrc: ["'self'", "ws://10.0.0.6:35729"],
+      scriptSrc: ["'unsafe-inline'", "'self'", "http://10.0.0.6:35729"],
       styleSrc: ["'self'", "'unsafe-inline'"],
       workerSrc: ["'self'", "blob:"],
       objectSrc: [],
-      imgSrc: [
-        "'self'",
-        "blob:",
-        "data:",
-        'res.cloudinary.com/due9a2put/',
-      ],
+      imgSrc: ["'self'", "blob:", "data:", "res.cloudinary.com/due9a2put/"],
       fontSrc: ["'self'"],
     },
   })
@@ -150,6 +145,21 @@ app.use((req, res, next) => {
   next();
 });
 
+// Live reload browser for dev
+const livereload = require("livereload");
+const liveReloadServer = livereload.createServer();
+liveReloadServer.watch(path.join(__dirname, "public"));
+liveReloadServer.watch(path.join(__dirname, "views"))
+
+const connectLivereload = require("connect-livereload");
+app.use(connectLivereload());
+
+liveReloadServer.server.once("connection", () => {
+  setTimeout(() => {
+    liveReloadServer.refresh("/");
+  }, 100);
+});
+
 // Use imported routes
 app.use("/", indexRouter);
 app.use("/posts", postsRouter);
@@ -157,19 +167,19 @@ app.use("/friends", friendsRouter);
 
 // Handle not found error
 app.use("*", (req, res, next) => {
-  next(new ExpressError("Page not found", 404, false))
-})
+  next(new ExpressError("Page not found", 404, false));
+});
 
 // Handle errors
 app.use((err, req, res, next) => {
-  console.log("ERROR MESSAGE", err.message)
+  console.log("ERROR MESSAGE", err.message);
   if (err.redirect) {
-    req.flash("error", err.message)
-    res.status(err.statusCode).redirect(err.redirect)
+    req.flash("error", err.message);
+    res.status(err.statusCode).redirect(err.redirect);
   } else {
-    res.status(err.statusCode).render("error", {err})
+    res.status(err.statusCode).render("error", { err });
   }
-})
+});
 
 // Listen on hosted port or 3000
 const port = process.env.PORT || 3000;
@@ -177,7 +187,5 @@ app.listen(port, () => {
   console.log("Port " + port);
 });
 
-// req validation
 // client validation
 // styles
-// error handling

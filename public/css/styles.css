@@ -1,0 +1,252 @@
+html,
+body,
+div,
+span,
+applet,
+object,
+iframe,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote,
+pre,
+a,
+abbr,
+acronym,
+address,
+big,
+cite,
+code,
+del,
+dfn,
+em,
+img,
+ins,
+kbd,
+q,
+s,
+samp,
+small,
+strike,
+strong,
+sub,
+sup,
+tt,
+var,
+b,
+u,
+i,
+center,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+table,
+caption,
+tbody,
+tfoot,
+thead,
+tr,
+th,
+td,
+article,
+aside,
+canvas,
+details,
+embed,
+figure,
+figcaption,
+footer,
+header,
+hgroup,
+menu,
+nav,
+output,
+ruby,
+section,
+summary,
+time,
+mark,
+audio,
+video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol,
+ul {
+  list-style: none;
+}
+
+blockquote,
+q {
+  quotes: none;
+}
+
+blockquote:before,
+blockquote:after,
+q:before,
+q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+body {
+  background-color: rgba(190, 190, 190, 0.082);
+}
+body * {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+  background-color: #4662ff;
+}
+.navbar ul {
+  display: flex;
+  border-bottom: 1px solid #4662ff;
+}
+.navbar li {
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: border 0.2s;
+  -webkit-transition: border 0.2s;
+  -moz-transition: border 0.2s;
+  -ms-transition: border 0.2s;
+  -o-transition: border 0.2s;
+}
+.navbar a {
+  border-bottom: 4px solid #4662ff;
+  text-decoration: none;
+  color: white;
+  display: block;
+  height: 100%;
+}
+.navbar a:hover {
+  border-bottom: 4px solid white;
+}
+
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  padding: 10px;
+  padding-top: 50px;
+}
+.form-wrapper > div {
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  padding: 10px;
+  width: 100%;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  background-color: white;
+}
+@media (min-width: 600px) {
+  .form-wrapper > div {
+    max-width: 600px;
+  }
+}
+.form-wrapper > div h1 {
+  text-align: center;
+  font-size: 1.4rem;
+  margin: 10px 0;
+  font-size: 1.2rem;
+  color: #4662ff;
+}
+
+.form label {
+  display: block;
+  width: 100%;
+  margin-bottom: 8px;
+}
+.form input {
+  display: block;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 12px;
+  width: 100%;
+  border: 1px solid #c7c7c7;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  outline: none;
+}
+.form input:focus {
+  border: 2px solid rgba(70, 98, 255, 0.527);
+  padding: 9px;
+}
+.form button {
+  outline: none;
+  padding: 10px 20px;
+  display: block;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  transition: 0.25s background-color;
+  -webkit-transition: 0.25s background-color;
+  -moz-transition: 0.25s background-color;
+  -ms-transition: 0.25s background-color;
+  -o-transition: 0.25s background-color;
+  cursor: pointer;
+  max-width: 200px;
+  width: 100%;
+  border: none;
+  color: white;
+  background-color: #008800;
+}
+.form button:hover {
+  color: white;
+  background-color: #01aa01;
+}
+
+/*# sourceMappingURL=styles.css.map */

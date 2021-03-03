@@ -1,27 +1,31 @@
 <%- layout("layout/boilerplate") %>
-<h1>Register</h1>
-<form action="/register" method="POST">
+<section class="form-wrapper">
   <div>
-    <div>
-      <label for="firstName">First Name</label>
-      <input type="text" id="firstName" name="firstName" />
-    </div>
-    <div>
-      <label for="lastName">Last Name</label>
-      <input type="text" id="lastName" name="lastName" />
-    </div>
-    <div>
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" />
-    </div>
-    <div>
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" />
-    </div>
-    <div>
-      <label for="confirmPassword">Confirm Password</label>
-      <input type="password" id="confirmPassword" name="confirmPassword" />
-    </div>
-    <button type="submit">Register</button>
+    <h1>Register a new account</h1>
+    <form class="form" action="/register" method="POST">
+      <div>
+        <div>
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="First Name"/>
+        </div>
+        <div>
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Last Name"/>
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="Email"/>
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="Password" />
+        </div>
+        <div>
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" />
+        </div>
+        <button type="submit">Register</button>
+      </div>
+    </form>
   </div>
-</form>
+</section>
