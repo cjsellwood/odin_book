@@ -1,38 +1,53 @@
 <%- layout("layout/boilerplate") %>
-<a href="/friends/find">Find New Friends</a>
-<h1>Friends</h1>
-<% for (let friend of friends) {%>
-<div>
-  <a href="/friends/<%= friend._id %>"><%= friend.fullName %></a>
+<section class="section-wrapper wide">
   <div>
-    <img src="<%= friend.avatarUrl %>" />
+    <a class="edit-button" href="/friends/find">Find Friends</a>
+    <% if (friends.length) { %>
+    <h1 class="section-title">Friends</h1>
+    <div class="friends-grid">
+      <% for (let friend of friends) {%>
+      <a href="/friends/<%= friend._id %>">
+        <h2><%= friend.fullName %></h2>
+        <div class="image-container">
+          <img src="<%= friend.avatarUrl %>" />
+        </div>
+      </a>
+      <% } %>
+    </div>
+    <% } %> 
+    <% if (requests.length) {%>
+    <h1 class="section-title">Friend Requests</h1>
+    <div class="friends-grid">
+      <% for (let request of requests) { %>
+      <a href="/friends/<%= request._id %>">
+        <h2><%= request.fullName %></h2>
+        <div>
+          <img src="<%= request.avatarUrl %>" />
+        </div>
+        <form class="form" action="/friends/accept" method="POST">
+          <input type="hidden" name="requesterId" value="<%= request._id%>" />
+          <button class="blue">Accept Friend Request</button>
+        </form>
+      </a>
+      <% } %>
+    </div>
+    <% } %> 
+    <% if (sentRequests) { %>
+    <h1 class="section-title">Pending Requests</h1>
+    <div class="friends-grid">
+      <% for (let sentRequest of sentRequests) { %>
+      <a href="/friends/<%= sentRequest._id %>">
+        <h2><%= sentRequest.fullName %></h2>
+        <div class="image-container">
+          <img src="<%= sentRequest.avatarUrl %>" />
+        </div>
+        <form class="form" action="/friends/cancel" method="POST">
+          <input type="hidden" name="personId" value="<%= sentRequest._id%>" />
+          <button class="blue">Cancel Friend Request</button>
+        </form>
+      </a>
+      <% } %>
+    </div>
+    <% } %>
   </div>
-</div>
-<% } %>
-<h1>Friend Requests</h1>
-<% for (let request of requests) { %>
-<div>
-  <a href="/friends/<%= request._id %>"><%= request.fullName %></a>
-  <div>
-    <img src="<%= request.avatarUrl %>" />
-  </div>
-  <form action="/friends/accept" method="POST">
-    <input type="hidden" name="requesterId" value="<%= request._id%>" />
-    <button>Accept Friend Request</button>
-  </form>
-</div>
-<% } %>
-
-<h1>Pending Requests</h1>
-<% for (let sentRequest of sentRequests) { %>
-<div>
-  <a href="/friends/<%= sentRequest._id %>"><%= sentRequest.fullName %></a>
-  <div>
-    <img src="<%= sentRequest.avatarUrl %>" />
-  </div>
-  <form action="/friends/cancel" method="POST">
-    <input type="hidden" name="personId" value="<%= sentRequest._id%>" />
-    <button>Cancel Friend Request</button>
-  </form>
-</div>
-<% } %>
+</section>
