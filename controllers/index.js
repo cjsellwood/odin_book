@@ -32,7 +32,7 @@ module.exports.home = catchAsync(async (req, res, next) => {
 
   // Sort by most recent
   posts.sort((a, b) => b.date - a.date);
-  res.render("index/home", { posts });
+  res.render("index/home", { posts, user });
 });
 
 // Get login form

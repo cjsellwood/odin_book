@@ -189,6 +189,5 @@ app.listen(port, () => {
 
 // client validation
 // styles {
-// /
 // possibly file chooser
 // }
