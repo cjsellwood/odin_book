@@ -1,55 +1,131 @@
 <%- layout("layout/boilerplate") %>
-<h1>Home</h1>
-<a href="/posts/new">New Post</a>
-<% for (let post of posts) { %>
-<div style="border: 1px solid black">
-  <% if (post.imageUrl) { %>
+<section class="section-wrapper wide invisible">
   <div>
-    <img src="<%= post.imageUrl %>" />
-  </div>
-  <% } %>
-  <p><%= post.content %></p>
-  <a href="/friends/<%= post.author._id %>"><%= post.author.fullName %></a>
-  <p><%= post.sinceDate %></p>
-  <p>Likes: <%= post.likes.length %></p>
-  <% if (post.likes.includes(currentUser._id)) { %>
-  <form action="/posts/<%= post._id %>/unlike" method="POST">
-    <button>Unlike</button>
-  </form>
-  <% } else { %>
-  <form action="/posts/<%= post._id %>/like" method="POST">
-    <button>Like</button>
-  </form>
-  <% } %> 
-  <% if (currentUser._id.toString() === post.author._id.toString()) { %>
-  <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-    <button>Delete</button>
-  </form>
-  <% } %>
-   <% for (let comment of post.comments) { %>
-  <div style="border: 1px solid green">
-    <p><%= comment.content %></p>
-    <a href="/friends/<%= comment.author._id %>"
-      ><%= comment.author.fullName %></a>
-    <p><%= comment.sinceDate %></p>
-    <% if (currentUser._id.toString() === comment.author._id.toString()) { %>
-    <form
-      action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
-      method="POST"
-    >
-      <button>Delete</button>
-    </form>
-    <% }%>
-  </div>
-  <% } %>
-  <div>
-    <form action="/posts/<%= post._id %>/comment" method="POST">
+    <a class="edit-button posts" href="/posts/new">New Post</a>
+    <div class="posts-grid">
+      <% for (let post of posts) { %>
       <div>
-        <label for="content">Comment</label>
-        <input name="content" id="content" type="text" />
-        <button>Submit</button>
+        <header class="post-header">
+          <div>
+            <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+          </div>
+          <div>
+            <a href="/friends/<%= post.author._id %>"
+              ><%= post.author.fullName %></a
+            >
+            <p><%= post.sinceDate %></p>
+          </div>
+        </header>
+        <p class="post-content"><%= post.content %></p>
+        <% if (post.imageUrl) { %>
+        <div class="image-container">
+          <img src="<%= post.imageUrl %>" />
+        </div>
+        <% } %> <% if (post.likes.length) { %>
+        <p class="post-likes">
+          <%= post.likes.length %> <%= post.likes.length > 1 ? "Likes" : "Like"
+          %>
+        </p>
+        <% } %>
+        <div class="post-buttons">
+          <% if (post.likes.includes(currentUser._id)) { %>
+          <form action="/posts/<%= post._id %>/unlike" method="POST">
+            <button class="post-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="white"
+                class="bi bi-hand-thumbs-up-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z"
+                />
+              </svg>
+              Liked
+            </button>
+          </form>
+          <% } else { %>
+          <form action="/posts/<%= post._id %>/like" method="POST">
+            <button class="post-button">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="white"
+                class="bi bi-hand-thumbs-up-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  d="M6.956 1.745C7.021.81 7.908.087 8.864.325l.261.066c.463.116.874.456 1.012.964.22.817.533 2.512.062 4.51a9.84 9.84 0 0 1 .443-.05c.713-.065 1.669-.072 2.516.21.518.173.994.68 1.2 1.273.184.532.16 1.162-.234 1.733.058.119.103.242.138.363.077.27.113.567.113.856 0 .289-.036.586-.113.856-.039.135-.09.273-.16.404.169.387.107.819-.003 1.148a3.162 3.162 0 0 1-.488.9c.054.153.076.313.076.465 0 .306-.089.626-.253.912C13.1 15.522 12.437 16 11.5 16H8c-.605 0-1.07-.081-1.466-.218a4.826 4.826 0 0 1-.97-.484l-.048-.03c-.504-.307-.999-.609-2.068-.722C2.682 14.464 2 13.846 2 13V9c0-.85.685-1.432 1.357-1.616.849-.231 1.574-.786 2.132-1.41.56-.626.914-1.279 1.039-1.638.199-.575.356-1.54.428-2.59z"
+                />
+              </svg>
+              Like
+            </button>
+          </form>
+          <% } %> 
+          <button class="post-button">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              fill="currentColor"
+              class="bi bi-chat-left-fill"
+              viewBox="0 0 16 16"
+            >
+              <path
+                d="M2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+              />
+            </svg>
+            Comment
+          </button>
+          <% if (currentUser._id.toString() ===
+          post.author._id.toString()) { %>
+          <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+            <button class="post-button delete">
+
+              Delete</button>
+          </form>
+          <% } %>
+
+        </div>
+        <% for (let comment of post.comments) { %>
+        <div class="post-comments">
+          <header class="post-header">
+          <div>
+            <img src="<%= comment.author.avatarUrl %>" alt="avatar" />
+          </div>
+          <div>
+            <a href="/friends/<%= post.author._id %>"
+              ><%= comment.author.fullName %></a
+            >
+            <p><%= comment.sinceDate %></p>
+          </div>
+        </header>
+          <p class="post-content"><%= comment.content %></p>
+          <% if (currentUser._id.toString() === comment.author._id.toString()) {
+          %>
+          <form
+            action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+            method="POST"
+          >
+            <button class="post-button delete">Delete</button>
+          </form>
+          <% }%>
+        </div>
+        <% } %>
+        <div>
+          <form action="/posts/<%= post._id %>/comment" method="POST">
+            <div>
+              <label for="content">Comment</label>
+              <input name="content" id="content" type="text" />
+              <button class="post-button">Submit</button>
+            </div>
+          </form>
+        </div>
       </div>
-    </form>
+      <% } %>
+    </div>
   </div>
-</div>
-<% } %>
+</section>

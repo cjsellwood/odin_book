@@ -20,12 +20,12 @@ module.exports.home = catchAsync(async (req, res, next) => {
 
   // Get posts from the current user and their friends
   const posts = await Post.find({ author: { $in: friends } })
-    .populate("author", "firstName lastName fullName")
+    .populate("author", "firstName lastName fullName avatarUrl")
     .populate({
       path: "comments",
       populate: {
         path: "author",
-        select: "firstName lastName fullName",
+        select: "firstName lastName fullName avatarUrl",
         model: "User",
       },
     });
