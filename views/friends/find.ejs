@@ -1,14 +1,21 @@
 <%- layout("layout/boilerplate") %>
-<h1>Find Friends</h1>
-<% for (let person of people) {%>
-<div>
-  <a href="/friends/<%= person._id %>"><%= person.fullName %></a>
+<section class="section-wrapper wide">
   <div>
-    <img src="<%= person.avatarUrl %>" />
-    <form action="/friends/request" method="POST">
-      <input type="hidden" name="personId" value="<%= person._id %>" />
-      <button>Send Friend Request</button>
-    </form>
+    <h1 class="section-title">Find Friends</h1>
+    <div class="friends-grid">
+      <% for (let person of people) {%>
+      <a href="/friends/<%= person._id %>">
+        <h2><%= person.fullName %></h2>
+        <div>
+          <div class="image-container">
+            <img src="<%= person.avatarUrl %>" alt="Profile image"/>
+          </div>
+          <form class="form" action="/friends/<%= person._id %>/request" method="POST">
+            <button class="blue">Send Friend Request</button>
+          </form>
+        </div>
+      </a>
+      <% } %>
+    </div>
   </div>
-</div>
-<% } %>
+</section>

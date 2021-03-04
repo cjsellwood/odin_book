@@ -56,7 +56,7 @@ module.exports.userPage = catchAsync(async (req, res, next) => {
 
 // Submit friend request
 module.exports.friendRequest = catchAsync(async (req, res, next) => {
-  const { personId } = req.body;
+  const personId = req.params.id;
 
   // Find user to submit friend request to and add current user to their array
   const personQuery = User.findByIdAndUpdate(personId, {

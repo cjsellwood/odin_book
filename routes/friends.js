@@ -10,7 +10,7 @@ router.get("/", isLoggedIn, friends.home);
 router.get("/find", isLoggedIn, friends.findFriends);
 
 // Submit a friend request to a user
-router.post("/request", isLoggedIn, friends.friendRequest);
+router.post("/:id/request", isLoggedIn, friends.friendRequest);
 
 // Accept a friend request from another user
 router.post("/accept", isLoggedIn, friends.friendAccept);

@@ -1,7 +1,7 @@
 // Show preview of uploaded image
 const imageInput = document.querySelector("#image");
 
-const imageContainer = document.querySelector("#preview-image-container");
+const imageContainer = document.querySelector(".image-container");
 
 imageInput.addEventListener("input", function () {
   const file = imageInput.files[0];
@@ -21,7 +21,6 @@ imageInput.addEventListener("input", function () {
     reader.readAsDataURL(file);
   }
   // Remove old children and add new
-  console.log(imageContainer)
   while (imageContainer.firstChild) {
     imageContainer.removeChild(imageContainer.firstChild);
   }

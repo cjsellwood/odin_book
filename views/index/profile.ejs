@@ -1,15 +1,40 @@
 <%- layout("layout/boilerplate") %>
-<h1>Your Profile</h1>
-<h3><%= user.fullName %></h3>
-<div>
-  <img src="<%= user.avatarUrl %>" />
-</div>
-<div>
-  <p>First Name: <%= user.firstName %></p>
-  <p>Last Name: <%= user.lastName %></p>
-  <p>Email: <%= user.email %></p>
-  <p>City: <%= user.city %></p>
-  <p>Country: <%= user.country %></p>
-  <p>Birth Date: <%= user.birthDate ? user.birthDate.toLocaleDateString() : "" %></p>
-</div>
-<a href="/profile/edit">Edit</a>
+<section class="section-wrapper">
+  <div>
+    <h1 class="section-title">Your Profile</h1>
+    <div class="image-container">
+      <img src="<%= user.avatarUrl %>" />
+    </div>
+    <div>
+      <table class="profile-table">
+        <tr>
+          <th>First Name</th>
+          <td><%= user.firstName %></td>
+        </tr>
+        <tr>
+          <th>Last Name</th>
+          <td><%= user.lastName %></td>
+        </tr>
+        <tr>
+          <th>Email</th>
+          <td><%= user.email %></td>
+        </tr>
+        <tr>
+          <th>City</th>
+          <td><%= user.city %></td>
+        </tr>
+        <tr>
+          <th>Country</th>
+          <td><%= user.country %></td>
+        </tr>
+        <tr>
+          <th>Birth Date</th>
+          <td>
+            <%= user.birthDate ? user.birthDate.toLocaleDateString() : "" %>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <a class="edit-button" href="/profile/edit">Edit</a>
+  </div>
+</section>

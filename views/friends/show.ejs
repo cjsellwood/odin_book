@@ -1,20 +1,44 @@
 <%- layout("layout/boilerplate") %>
-<h1><%= person.fullName %></h1>
-<img src="<%= person.avatarUrl %>" />
-<% if (isFriend) { %>
-<p><%= person.city %><%= person.country ? ", " + person.country : null %></p>
-<form action="/friends/unfriend?_method=DELETE" method="POST">
-  <input type="hidden" name="personId" value="<%= person._id%>" />
-  <button>Unfriend</button>
-</form>
-<% } else if (isPending){ %>
-<form action="/friends/cancel" method="POST">
-  <input type="hidden" name="personId" value="<%= person._id%>" />
-  <button>Cancel Friend Request</button>
-</form>
-<% } else {%>
-<form action="/friends/request" method="POST">
-  <input type="hidden" name="personId" value="<%= person._id %>" />
-  <button>Send Friend Request</button>
-</form>
-<% } %>
+<section class="section-wrapper">
+  <div>
+    <h1 class="section-title"><%= person.fullName %></h1>
+    <div class="image-container">
+      <img src="<%= person.avatarUrl %>" />
+    </div>
+    <% if (isFriend) { %>
+    <p class="person-details">
+      <%= person.city %><%= person.city && person.country ? ", " : null %> <%=
+      person.country ? person.country : null %>
+    </p>
+    <p class="person-details">
+      <%= person.birthDate ? person.birthDate.toLocaleDateString() : "" %>
+    </p>
+    <form class="form" action="/friends/unfriend?_method=DELETE" method="POST">
+      <input type="hidden" name="personId" value="<%= person._id%>" />
+      <button class="blue">Unfriend</button>
+    </form>
+    <% } else if (isPending){ %>
+    <p class="person-details">
+      <%= person.city %><%= person.city && person.country ? ", " : null %> <%=
+      person.country ? person.country : null %>
+    </p>
+    <form class="form" action="/friends/cancel" method="POST">
+      <input type="hidden" name="personId" value="<%= person._id%>" />
+      <button class="blue">Cancel Friend Request</button>
+    </form>
+    <% } else {%>
+    <p class="person-details">
+      <%= person.city %><%= person.city && person.country ? ", " : null %> <%=
+      person.country ? person.country : null %>
+    </p>
+    <form
+      class="form"
+      action="/friends/<%= person._id %>/request"
+      method="POST"
+    >
+      <!-- <input type="hidden" name="personId" value="<%= person._id %>" /> -->
+      <button class="blue">Send Friend Request</button>
+    </form>
+    <% } %>
+  </div>
+</section>
