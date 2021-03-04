@@ -153,6 +153,7 @@ body * {
   display: flex;
   width: 100%;
   margin-bottom: 20px;
+  outline: 1px solid white;
 }
 .navbar .mobile-menu {
   all: unset;
@@ -483,6 +484,7 @@ body * {
   font-size: 1.4rem;
   margin: 10px 0;
   color: #4662ff;
+  word-break: break-all;
 }
 
 .profile-table {

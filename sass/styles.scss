@@ -15,6 +15,7 @@ body {
   margin-bottom: 20px;
   height: 51px;
   z-index: 100;
+
 }
 
 .navbar {
@@ -25,6 +26,7 @@ body {
   display: flex;
   width: 100%;
   margin-bottom: 20px;
+  outline: 1px solid white;
 
   .mobile-menu {
     all: unset;
@@ -381,6 +383,7 @@ body {
   font-size: 1.4rem;
   margin: 10px 0;
   color: $main-blue;
+  word-break: break-all;
 }
 
 .profile-table {
@@ -744,5 +747,5 @@ input::-webkit-calendar-picker-indicator {
 }
 
 input::-webkit-datetime-edit {
-  cursor:text
+  cursor: text;
 }

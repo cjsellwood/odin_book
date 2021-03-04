@@ -44,31 +44,32 @@ module.exports.userPage = catchAsync(async (req, res, next) => {
   // Get information on user and the person which the page is about
   const personQuery = User.findById(req.params.id);
   const userQuery = User.findById(req.user._id);
-  // Get posts from this person
-  const postsQuery = Post.find({ author: req.params.id })
-    .populate("author", "firstName lastName fullName avatarUrl")
-    .populate({
-      path: "comments",
-      populate: {
-        path: "author",
-        select: "firstName lastName fullName avatarUrl",
-        model: "User",
-      },
-    });
-  const [person, user, posts] = await Promise.all([
-    personQuery,
-    userQuery,
-    postsQuery,
-  ]);
 
-  // Sort by most recent
-  posts.sort((a, b) => b.date - a.date);
+  const [person, user] = await Promise.all([personQuery, userQuery]);
 
   // Check if person is a friend for displaying page
   const isFriend = user.friends.includes(person._id);
 
   // Check if they have a pending friend request
   const isPending = user.sentRequests.includes(person._id);
+
+  // Get posts from this person if they are a friend of the user
+  let posts = [];
+  if (isFriend) {
+    posts = await Post.find({ author: req.params.id })
+      .populate("author", "firstName lastName fullName avatarUrl")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "author",
+          select: "firstName lastName fullName avatarUrl",
+          model: "User",
+        },
+      });
+
+    // Sort by most recent
+    posts.sort((a, b) => b.date - a.date);
+  }
 
   res.render("friends/show", { person, user, isFriend, isPending, posts });
 });

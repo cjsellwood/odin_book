@@ -16,7 +16,7 @@
     </div>
     <% } %> 
     <% if (requests.length) {%>
-    <h1 class="section-title">Friend Requests</h1>
+    <h1 class="section-title">Received Requests</h1>
     <div class="friends-grid">
       <% for (let request of requests) { %>
       <a href="/friends/<%= request._id %>">
@@ -33,7 +33,7 @@
     </div>
     <% } %> 
     <% if (sentRequests) { %>
-    <h1 class="section-title">Pending Requests</h1>
+    <h1 class="section-title">Sent Requests</h1>
     <div class="friends-grid">
       <% for (let sentRequest of sentRequests) { %>
       <a href="/friends/<%= sentRequest._id %>">

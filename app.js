@@ -188,4 +188,3 @@ app.listen(port, () => {
 });
 
 // client validation
-// on user, if friend show their posts
