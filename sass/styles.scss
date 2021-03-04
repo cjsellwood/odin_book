@@ -642,7 +642,7 @@ body {
 
   form {
     // width: 100%;
-    width: calc(100% - 55px)
+    width: calc(100% - 55px);
   }
 
   textarea {
@@ -674,7 +674,7 @@ body {
   }
 
   &.show {
-    display: flex
+    display: flex;
   }
 }
 
@@ -684,7 +684,6 @@ body {
 }
 
 .error-container {
-
   h1 {
     color: rgb(230, 0, 0);
     margin-bottom: 0;
@@ -694,4 +693,52 @@ body {
     text-align: center;
     font-size: 1.1rem;
   }
+}
+
+input[type="file"] {
+  &:hover {
+    opacity: 0.9;
+  }
+  cursor: pointer;
+  padding: 1px;
+  transition: 0.25s opacity;
+  -webkit-transition: 0.25s opacity;
+  -moz-transition: 0.25s opacity;
+  -ms-transition: 0.25s opacity;
+  -o-transition: 0.25s opacity;
+}
+
+.form input[type="file"]:focus {
+  padding: 0;
+}
+
+input::file-selector-button {
+  color: white;
+  background-color: $main-blue;
+  padding: 10px 20px;
+  margin-right: 10px;
+  border: 0;
+  outline: 0;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  cursor: pointer;
+}
+
+input::file-selector-button:hover {
+  background-color: rgb(87, 112, 255);
+}
+
+input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  padding: 10px;
+  margin-top: -10px;
+  margin-bottom: -10px;
+  margin-right: -10px;
+}
+
+input::-webkit-datetime-edit {
+  cursor:text
 }

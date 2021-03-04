@@ -188,6 +188,4 @@ app.listen(port, () => {
 });
 
 // client validation
-// styles {
-// possibly file chooser
-// }
+// on user, if friend show their posts
