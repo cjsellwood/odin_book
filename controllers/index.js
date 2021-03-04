@@ -53,7 +53,7 @@ module.exports.loginUser = (req, res) => {
 // Logout user
 module.exports.logoutUser = (req, res) => {
   req.logout();
-  req.flash("success", "Logged Out")
+  req.flash("success", "Logged Out");
   res.redirect("/login");
 };
 
@@ -104,7 +104,23 @@ module.exports.registerUser = catchAsync(async (req, res, next) => {
 // Get profile page of user
 module.exports.getProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  res.render("index/profile", { user });
+
+  // Get posts from this person
+  const posts = await Post.find({ author: req.user._id })
+    .populate("author", "firstName lastName fullName avatarUrl")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "firstName lastName fullName avatarUrl",
+        model: "User",
+      },
+    });
+
+  // Sort by most recent
+  posts.sort((a, b) => b.date - a.date);
+
+  res.render("index/profile", { user, posts });
 });
 
 // Get profile edit form

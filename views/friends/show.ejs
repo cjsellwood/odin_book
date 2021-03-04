@@ -36,9 +36,103 @@
       action="/friends/<%= person._id %>/request"
       method="POST"
     >
-      <!-- <input type="hidden" name="personId" value="<%= person._id %>" /> -->
       <button class="blue">Send Friend Request</button>
     </form>
     <% } %>
   </div>
 </section>
+<section class="section-wrapper wide invisible">
+  <div class="posts-grid">
+    <% for (let post of posts) { %>
+    <div class="post">
+      <header class="post-header">
+        <div>
+          <a href="/friends/<%= post.author._id %>">
+            <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+          </a>
+        </div>
+        <div>
+          <a href="/friends/<%= post.author._id %>"
+            ><%= post.author.fullName %></a
+          >
+          <p><%= post.sinceDate %></p>
+        </div>
+      </header>
+      <p class="post-content"><%= post.content %></p>
+      <% if (post.imageUrl) { %>
+      <div class="image-container">
+        <img src="<%= post.imageUrl %>" />
+      </div>
+      <% } %> <% if (post.likes.length) { %>
+      <p class="post-likes">
+        <%= post.likes.length %> <%= post.likes.length > 1 ? "Likes" : "Like" %>
+      </p>
+      <% } %>
+      <div class="post-buttons">
+        <% if (post.likes.includes(currentUser._id)) { %>
+        <form action="/posts/<%= post._id %>/unlike" method="POST">
+          <button class="post-button">Liked</button>
+        </form>
+        <% } else { %>
+        <form action="/posts/<%= post._id %>/like" method="POST">
+          <button class="post-button">Like</button>
+        </form>
+        <% } %>
+        <button class="post-button comment-button">Comment</button>
+        <% if (currentUser._id.toString() === post.author._id.toString()) { %>
+        <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
+          <button class="post-button delete">Delete</button>
+        </form>
+        <% } %>
+      </div>
+      <% for (let comment of post.comments) { %>
+      <div class="post-comments">
+        <header class="post-header">
+          <div>
+            <a href="/friends/<%= comment.author._id %>">
+              <img src="<%= comment.author.avatarUrl %>" alt="avatar"
+            /></a>
+          </div>
+          <div>
+            <a href="/friends/<%= comment.author._id %>"
+              ><%= comment.author.fullName %></a
+            >
+            <p><%= comment.sinceDate %></p>
+          </div>
+        </header>
+        <p class="post-content"><%= comment.content %></p>
+        <% if (currentUser._id.toString() === comment.author._id.toString()) {
+        %>
+        <form
+          action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
+          method="POST"
+        >
+          <button class="post-button delete">Delete</button>
+        </form>
+        <% }%>
+      </div>
+      <% } %> <% if (post.comments.length > 2) { %>
+      <button class="post-button add-comment">Add Comment</button>
+      <% } %>
+      <div class="new-comment">
+        <div>
+          <img src="<%= user.avatarUrl %>" alt="avatar" />
+        </div>
+        <form
+          id="comment-form<%= post._id %>"
+          action="/posts/<%= post._id %>/comment"
+          method="POST"
+        >
+          <div>
+            <textarea name="content" id="content" type="text"></textarea>
+          </div>
+        </form>
+        <button form="comment-form<%= post._id %>" class="post-button">
+          Comment
+        </button>
+      </div>
+    </div>
+    <% } %>
+  </div>
+</section>
+<script src="/js/newComment.js"></script>

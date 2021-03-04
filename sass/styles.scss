@@ -456,6 +456,10 @@ body {
   }
 
   a {
+    &:hover {
+      background-color: rgba(70, 98, 255, 0.075);
+    }
+
     text-decoration: none;
     color: black;
     display: block;

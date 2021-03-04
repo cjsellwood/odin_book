@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const friends = require("../controllers/friends");
-const { isLoggedIn } = require("../middleware");
+const { isLoggedIn, setPreviousUrl } = require("../middleware");
 
 // Get friends page
 router.get("/", isLoggedIn, friends.home);
@@ -19,7 +19,7 @@ router.post("/accept", isLoggedIn, friends.friendAccept);
 router.post("/cancel", isLoggedIn, friends.cancelRequest);
 
 // Get single page of a user
-router.get("/:id", isLoggedIn, friends.userPage);
+router.get("/:id", isLoggedIn, setPreviousUrl, friends.userPage);
 
 // Unfriend a user
 router.delete("/unfriend", isLoggedIn, friends.unfriend);

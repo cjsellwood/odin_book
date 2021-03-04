@@ -95,7 +95,10 @@ module.exports.newComment = catchAsync(async (req, res, next) => {
     $push: { comments: comment._id },
   });
 
-  res.redirect("/");
+  // Go to page it was clicked on if set
+  const previousUrl = req.session.previousUrl || "/";
+  delete req.session.previousUrl;
+  res.redirect(previousUrl);
 });
 
 // Like a post
@@ -104,7 +107,11 @@ module.exports.likePost = catchAsync(async (req, res, next) => {
   const post = await Post.findByIdAndUpdate(postId, {
     $addToSet: { likes: req.user._id },
   });
-  res.redirect("/");
+
+  // Go to page it was clicked on if set
+  const previousUrl = req.session.previousUrl || "/";
+  delete req.session.previousUrl;
+  res.redirect(previousUrl);
 });
 
 // Unlike a post
@@ -113,7 +120,11 @@ module.exports.unlikePost = catchAsync(async (req, res, next) => {
   const post = await Post.findByIdAndUpdate(postId, {
     $pull: { likes: req.user._id },
   });
-  res.redirect("/");
+
+  // Go to page it was clicked on if set
+  const previousUrl = req.session.previousUrl || "/";
+  delete req.session.previousUrl;
+  res.redirect(previousUrl);
 });
 
 // Delete a post created by the current user
@@ -132,7 +143,11 @@ module.exports.deletePost = catchAsync(async (req, res, next) => {
   }
 
   req.flash("success", "Deleted Post");
-  res.redirect("/");
+
+  // Go to page it was clicked on if set
+  const previousUrl = req.session.previousUrl || "/";
+  delete req.session.previousUrl;
+  res.redirect(previousUrl);
 });
 
 // Delete a comment by current user
@@ -150,6 +165,10 @@ module.exports.deleteComment = catchAsync(async (req, res, next) => {
     },
   });
 
-  req.flash("success", "Deleted Comment")
-  res.redirect("/");
+  req.flash("success", "Deleted Comment");
+
+  // Go to page it was clicked on if set
+  const previousUrl = req.session.previousUrl || "/";
+  delete req.session.previousUrl;
+  res.redirect(previousUrl);
 });

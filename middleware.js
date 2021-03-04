@@ -3,6 +3,12 @@ const Comment = require("./models/comment");
 const { registerSchema, editProfileSchema, postSchema, commentSchema } = require("./joi");
 const ExpressError = require("./utils/ExpressError");
 
+// Set previous url
+module.exports.setPreviousUrl = (req, res, next) => {
+  req.session.previousUrl = req.originalUrl;
+  next();
+}
+
 // Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.user) {

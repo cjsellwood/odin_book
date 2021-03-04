@@ -6,6 +6,7 @@ const {
   isLoggedIn,
   validateRegister,
   validateEditProfile,
+  setPreviousUrl,
 } = require("../middleware");
 const ExpressError = require("../utils/ExpressError");
 
@@ -21,7 +22,9 @@ const upload = multer({
     if (allowed.includes(extension)) {
       return cb(null, true);
     } else {
-      return cb(new ExpressError("File type not allowed", 400, "/profile/edit"));
+      return cb(
+        new ExpressError("File type not allowed", 400, "/profile/edit")
+      );
     }
   },
 });
@@ -52,7 +55,7 @@ router.get("/register", index.registerForm);
 router.post("/register", validateRegister, index.registerUser);
 
 // Get profile page for user
-router.get("/profile", isLoggedIn, index.getProfile);
+router.get("/profile", isLoggedIn, setPreviousUrl, index.getProfile);
 
 // Get edit profile form
 router.get("/profile/edit", isLoggedIn, index.editProfileForm);

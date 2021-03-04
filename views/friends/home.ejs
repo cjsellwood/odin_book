@@ -21,7 +21,7 @@
       <% for (let request of requests) { %>
       <a href="/friends/<%= request._id %>">
         <h2><%= request.fullName %></h2>
-        <div>
+        <div class="image-container">
           <img src="<%= request.avatarUrl %>" />
         </div>
         <form class="form" action="/friends/accept" method="POST">

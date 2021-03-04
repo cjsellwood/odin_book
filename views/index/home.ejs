@@ -7,7 +7,9 @@
       <div class="post">
         <header class="post-header">
           <div>
-            <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+            <a href="/friends/<%= post.author._id %>">
+              <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+            </a>
           </div>
           <div>
             <a href="/friends/<%= post.author._id %>"
@@ -48,10 +50,12 @@
         <div class="post-comments">
           <header class="post-header">
             <div>
-              <img src="<%= comment.author.avatarUrl %>" alt="avatar" />
+              <a href="/friends/<%= comment.author._id %>">
+                <img src="<%= comment.author.avatarUrl %>" alt="avatar"
+              /></a>
             </div>
             <div>
-              <a href="/friends/<%= post.author._id %>"
+              <a href="/friends/<%= comment.author._id %>"
                 ><%= comment.author.fullName %></a
               >
               <p><%= comment.sinceDate %></p>
@@ -68,9 +72,8 @@
           </form>
           <% }%>
         </div>
-        <% } %>
-        <% if (post.comments.length > 2) { %>
-          <button class="post-button add-comment">Add Comment</button>
+        <% } %> <% if (post.comments.length > 2) { %>
+        <button class="post-button add-comment">Add Comment</button>
         <% } %>
         <div class="new-comment">
           <div>
@@ -85,7 +88,9 @@
               <textarea name="content" id="content" type="text"></textarea>
             </div>
           </form>
-          <button form="comment-form<%= post._id %>" class="post-button">Comment</button>
+          <button form="comment-form<%= post._id %>" class="post-button">
+            Comment
+          </button>
         </div>
       </div>
       <% } %>

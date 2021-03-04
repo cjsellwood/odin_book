@@ -1,4 +1,5 @@
 const User = require("../models/user");
+const Post = require("../models/post");
 const catchAsync = require("../utils/catchAsync");
 
 // Get friends page
@@ -43,7 +44,25 @@ module.exports.userPage = catchAsync(async (req, res, next) => {
   // Get information on user and the person which the page is about
   const personQuery = User.findById(req.params.id);
   const userQuery = User.findById(req.user._id);
-  const [person, user] = await Promise.all([personQuery, userQuery]);
+  // Get posts from this person
+  const postsQuery = Post.find({ author: req.params.id })
+    .populate("author", "firstName lastName fullName avatarUrl")
+    .populate({
+      path: "comments",
+      populate: {
+        path: "author",
+        select: "firstName lastName fullName avatarUrl",
+        model: "User",
+      },
+    });
+  const [person, user, posts] = await Promise.all([
+    personQuery,
+    userQuery,
+    postsQuery,
+  ]);
+
+  // Sort by most recent
+  posts.sort((a, b) => b.date - a.date);
 
   // Check if person is a friend for displaying page
   const isFriend = user.friends.includes(person._id);
@@ -51,7 +70,7 @@ module.exports.userPage = catchAsync(async (req, res, next) => {
   // Check if they have a pending friend request
   const isPending = user.sentRequests.includes(person._id);
 
-  res.render("friends/show", { person, isFriend, isPending });
+  res.render("friends/show", { person, user, isFriend, isPending, posts });
 });
 
 // Submit friend request
