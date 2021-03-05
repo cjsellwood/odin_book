@@ -41,12 +41,12 @@ forms.forEach((form) => {
 
       // Get message elements for each input
       const messageElements = [
-        ...forms[0].querySelectorAll(
+        ...form.querySelectorAll(
           "input + .validate-msg, textarea + .validate-msg"
         ),
       ];
 
-      // check if passwords match if on register page
+      // Check if passwords match if on register page
       const confirmPassword = form.querySelector("input[name='confirmPassword'");
       if (confirmPassword) {
         const password = form.querySelector("input[name='password']")
@@ -59,6 +59,7 @@ forms.forEach((form) => {
       }
 
       // Add validation message after
+      console.log(inputElements, messageElements)
       for (let i = 0; i < inputElements.length; i++) {
         messageElements[i].textContent = inputElements[i].validationMessage;
         if (inputElements[i].validationMessage === "") {

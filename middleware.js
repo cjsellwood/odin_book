@@ -75,7 +75,7 @@ module.exports.validatePost = (req, res, next) => {
       "error",
       isValid.error.details.map((error) => error.message).join(",")
     );
-    return res.redirect("/new");
+    return res.redirect("/posts/new");
   }
   next();
 }
