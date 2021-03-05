@@ -71,11 +71,15 @@ app.use(
       defaultSrc: [],
       connectSrc: ["'self'", "ws://10.0.0.6:35729"],
       scriptSrc: ["'unsafe-inline'", "'self'", "http://10.0.0.6:35729"],
-      styleSrc: ["'self'", "'unsafe-inline'"],
+      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com/"],
       workerSrc: ["'self'", "blob:"],
       objectSrc: [],
       imgSrc: ["'self'", "blob:", "data:", "res.cloudinary.com/due9a2put/"],
-      fontSrc: ["'self'"],
+      fontSrc: [
+        "'self'",
+        "https://fonts.googleapis.com/",
+        "https://fonts.gstatic.com",
+      ],
     },
   })
 );
@@ -149,7 +153,7 @@ app.use((req, res, next) => {
 const livereload = require("livereload");
 const liveReloadServer = livereload.createServer();
 liveReloadServer.watch(path.join(__dirname, "public"));
-liveReloadServer.watch(path.join(__dirname, "views"))
+liveReloadServer.watch(path.join(__dirname, "views"));
 
 const connectLivereload = require("connect-livereload");
 app.use(connectLivereload());

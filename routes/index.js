@@ -30,7 +30,7 @@ const upload = multer({
 });
 
 // Home where posts by users friends are shown
-router.get("/", isLoggedIn, index.home);
+router.get("/", isLoggedIn, setPreviousUrl, index.home);
 
 // Get login form
 router.get("/login", index.loginForm);
