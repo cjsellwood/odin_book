@@ -3,7 +3,7 @@ const Joi = require("joi");
 module.exports.registerSchema = Joi.object({
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
-  email: Joi.string().email().required(),
+  email: Joi.string().email({minDomainSegments: 1}).required(),
   password: Joi.string().min(8),
   confirmPassword: Joi.ref("password"),
 }).required();

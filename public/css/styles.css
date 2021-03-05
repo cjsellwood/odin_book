@@ -829,4 +829,16 @@ input::-webkit-datetime-edit {
   cursor: text;
 }
 
+.was-validated .validate-msg {
+  color: black;
+  margin: 5px 0;
+  margin-bottom: 15px;
+  color: rgba(199, 0, 0, 0.9);
+  font-size: 1rem;
+  word-break: break-all;
+}
+.was-validated .validate-msg.good {
+  color: rgba(0, 128, 0, 0.9);
+}
+
 /*# sourceMappingURL=styles.css.map */

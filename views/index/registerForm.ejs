@@ -2,47 +2,64 @@
 <section class="form-wrapper">
   <div>
     <h1>Register a new account</h1>
-    <form class="form" action="/register" method="POST">
+    <form class="form" action="/register" method="POST" novalidate>
       <div>
         <div>
-          <label for="firstName">First Name</label>
+          <label for="firstName">First Name*</label>
           <input
             type="text"
             id="firstName"
             name="firstName"
             placeholder="First Name"
+            required
           />
+          <div class="validate-msg"></div>
         </div>
         <div>
-          <label for="lastName">Last Name</label>
+          <label for="lastName">Last Name*</label>
           <input
             type="text"
             id="lastName"
             name="lastName"
             placeholder="Last Name"
+            required
           />
+          <div class="validate-msg"></div>
         </div>
         <div>
-          <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="Email" />
+          <label for="email">Email*</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <div class="validate-msg"></div>
         </div>
         <div>
-          <label for="password">Password</label>
+          <label for="password">Password*</label>
           <input
             type="password"
             id="password"
             name="password"
             placeholder="Password"
+            required
+            minlength="8"
           />
+          <div class="validate-msg"></div>
         </div>
         <div>
-          <label for="confirmPassword">Confirm Password</label>
+          <label for="confirmPassword">Confirm Password*</label>
           <input
             type="password"
             id="confirmPassword"
             name="confirmPassword"
             placeholder="Confirm Password"
+            required
+            minlength="8"
           />
+          <div class="validate-msg"></div>
         </div>
         <button type="submit">Register</button>
       </div>
