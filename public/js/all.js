@@ -1,8 +1,29 @@
+// Dark mode toggle button
+const theme = localStorage.getItem("theme");
+const darkBtn = document.querySelector("#theme-button");
+if (theme === "dark") {
+  document.body.classList.add("dark-mode");
+  darkBtn.setAttribute("data-theme", "light");
+} else {
+  document.body.classList.remove("dark-mode");
+  darkBtn.setAttribute("data-theme", "dark")
+}
+darkBtn.addEventListener("click", function () {
+  document.body.classList.toggle("dark-mode");
+  if (darkBtn.getAttribute("data-theme") === "light") {
+    darkBtn.setAttribute("data-theme", "dark");
+    localStorage.setItem("theme", "light");
+  } else {
+    darkBtn.setAttribute("data-theme", "light");
+    localStorage.setItem("theme", "dark");
+  }
+});
+
 // Open or close navbar menu
 function toggleMenu() {
   const mobileMenu = document.querySelector(".mobile-menu");
   mobileMenu.classList.toggle("show");
-  mobileMenu.addEventListener("click", () => {
+  mobileMenu.addEventListener("click", function () {
     mobileMenu.classList.toggle("show");
   });
 }
@@ -23,7 +44,6 @@ if (flash) {
 const forms = document.querySelectorAll("form");
 forms.forEach((form) => {
   form.addEventListener("submit", function (e) {
-
     const validity = form.checkValidity();
     // Submit if valid
     if (validity) {
@@ -47,36 +67,38 @@ forms.forEach((form) => {
       ];
 
       // Check if passwords match if on register page
-      const confirmPassword = form.querySelector("input[name='confirmPassword'");
+      const confirmPassword = form.querySelector(
+        "input[name='confirmPassword'"
+      );
       if (confirmPassword) {
-        const password = form.querySelector("input[name='password']")
-        const index = (Array.from(inputElements)).indexOf(confirmPassword)
+        const password = form.querySelector("input[name='password']");
+        const index = Array.from(inputElements).indexOf(confirmPassword);
         if (confirmPassword.value !== password.value) {
-          inputElements[index].setCustomValidity("Passwords did not match")
+          inputElements[index].setCustomValidity("Passwords did not match");
         } else {
-          inputElements[index].setCustomValidity("")
+          inputElements[index].setCustomValidity("");
         }
       }
 
       // Add validation message after
-      console.log(inputElements, messageElements)
+      console.log(inputElements, messageElements);
       for (let i = 0; i < inputElements.length; i++) {
         messageElements[i].textContent = inputElements[i].validationMessage;
         if (inputElements[i].validationMessage === "") {
           messageElements[i].textContent = "Good";
-          messageElements[i].classList.add("good")
+          messageElements[i].classList.add("good");
         } else {
-          messageElements[i].classList.remove("good")
+          messageElements[i].classList.remove("good");
         }
 
         // Add listener on each element to update the message when necessary
-        inputElements[i].addEventListener("input", () => {
+        inputElements[i].addEventListener("input", function () {
           if (inputElements[i].checkValidity()) {
             messageElements[i].textContent = "Good";
-            messageElements[i].classList.add("good")
+            messageElements[i].classList.add("good");
           } else {
             messageElements[i].textContent = inputElements[i].validationMessage;
-            messageElements[i].classList.remove("good")
+            messageElements[i].classList.remove("good");
           }
         });
       }

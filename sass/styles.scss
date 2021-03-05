@@ -1,14 +1,78 @@
 @use "reset";
 
-$main-blue: rgb(70, 98, 255);
-$main-font: "Inter", sans-serif;
-$logo-font: "Oswald", sans-serif;
+body {
+  --main-font: "Inter", sans-serif;
+  --logo-font: "Oswald", sans-serif;
+  --main-blue: rgb(70, 98, 255);
+  --hover-blue: rgb(92, 116, 255);
+  --blue-text: rgb(70, 98, 255);
+  --main-red: rgb(224, 36, 36);
+  --hover-red: rgb(241, 71, 71);
+  --main-green: rgb(0, 149, 0);
+  --hover-green: rgb(0, 179, 0);
+  --main-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  --main-background: rgba(190, 190, 190, 0.082);
+  --card-background: white;
+  --text-color: rgb(20, 20, 20);
+  --card-border: rgb(212, 212, 212);
+  --input-background: rgb(251, 251, 251);
+  --placeholder-color: rgb(143, 143, 143);
+  --input-border: rgb(199, 199, 199);
+}
+
+body.dark-mode {
+  --main-blue: rgb(48, 63, 159);
+  --hover-blue: rgb(64, 82, 199);
+  --blue-text: rgb(89, 171, 255);
+  --main-red: rgb(165, 26, 26);
+  --hover-red: rgb(195, 29, 29);
+  --main-green: rgb(0, 95, 0);
+  --hover-green: rgb(0, 115, 0);
+  --main-shadow: rgba(77, 76, 76, 0.3) 0px 1px 2px 0px,
+    rgb(73, 73, 73, 0.15) 0px 2px 6px 2px;
+  --main-background: rgb(20, 20, 20);
+  --card-background: rgb(41, 41, 41);
+  --text-color: rgb(230, 230, 230);
+  --card-border: rgb(71, 71, 71);
+  --input-background: rgb(56, 56, 56);
+  --placeholder-color: rgb(187, 187, 187);
+  --input-border: rgb(95, 95, 95);
+}
+
+#theme-button {
+  // font-size: 1.5rem;
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  cursor: pointer;
+}
+
+@mixin border-radius($property) {
+  border-radius: $property;
+  -webkit-border-radius: $property;
+  -moz-border-radius: $property;
+  -ms-border-radius: $property;
+  -o-border-radius: $property;
+}
+
+@mixin transition($property) {
+  transition: $property;
+  -webkit-transition: $property;
+  -moz-transition: $property;
+  -ms-transition: $property;
+  -o-transition: $property;
+}
 
 body {
-  background-color: rgba(190, 190, 190, 0.082);
+  background-color: var(--main-background);
   * {
     box-sizing: border-box;
-    font-family: $main-font;
+    font-family: var(--main-font);
+    color: var(--text-color);
   }
 }
 
@@ -17,19 +81,17 @@ body {
   margin-bottom: 20px;
   height: 51px;
   z-index: 100;
-
 }
 
 .navbar {
-  background-color: $main-blue;
+  background-color: var(--main-blue);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   width: 100%;
   margin-bottom: 20px;
-  outline: 1px solid white;
-
+  outline: 1px solid var(--main-background);
 
   .mobile-menu {
     all: unset;
@@ -45,7 +107,7 @@ body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      background-color: $main-blue;
+      background-color: var(--main-blue);
       width: 100vw;
       height: fit-content;
     }
@@ -92,16 +154,12 @@ body {
       width: 100%;
       height: 5px;
       background-color: white;
-      border-radius: 2px;
-      -webkit-border-radius: 2px;
-      -moz-border-radius: 2px;
-      -ms-border-radius: 2px;
-      -o-border-radius: 2px;
+      @include border-radius(2px);
     }
   }
   > ul {
     display: flex;
-    border-bottom: 1px solid $main-blue;
+    border-bottom: 1px solid var(--main-blue);
     padding: 0 20px;
     width: 100%;
   }
@@ -123,9 +181,9 @@ body {
     width: 100%;
     font-weight: bold;
     text-transform: uppercase;
-    
+
     a {
-      font-family: $logo-font;
+      font-family: var(--logo-font);
       color: rgb(255, 255, 255);
       text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.514);
       font-size: 1.7rem;
@@ -141,10 +199,7 @@ body {
   }
 
   a {
-    &:hover {
-      border-bottom: 4px solid white;
-    }
-    border-bottom: 4px solid $main-blue;
+    border-bottom: 4px solid var(--main-blue);
     text-decoration: none;
     color: white;
     display: block;
@@ -152,11 +207,10 @@ body {
     padding: 0 20px;
     font-size: 1.4rem;
     line-height: 50px;
-    transition: border 0.2s;
-    -webkit-transition: border 0.2s;
-    -moz-transition: border 0.2s;
-    -ms-transition: border 0.2s;
-    -o-transition: border 0.2s;
+    @include transition(border 0.2s);
+    &:hover {
+      border-bottom: 4px solid white;
+    }
   }
 }
 
@@ -166,18 +220,12 @@ body {
   align-items: center;
   flex-direction: column;
   padding: 10px;
-
   > div {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    background-color: var(--card-background);
+    box-shadow: var(--main-shadow);
     padding: 10px;
     width: 100%;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    background-color: white;
+    @include border-radius(5px);
 
     @media (min-width: 600px) {
       max-width: 600px;
@@ -187,7 +235,7 @@ body {
       text-align: center;
       font-size: 1.4rem;
       margin: 10px 0;
-      color: $main-blue;
+      color: var(--blue-text);
     }
   }
 }
@@ -199,75 +247,65 @@ body {
     margin-bottom: 8px;
   }
   input {
-    &:focus {
-      border: 2px solid rgba(70, 98, 255, 0.527);
-      padding: 9px;
-    }
     display: block;
     padding: 10px;
     font-size: 1rem;
     margin-bottom: 12px;
     width: 100%;
-    border: 1px solid rgb(199, 199, 199);
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    @include border-radius(5px);
     outline: none;
+
+    &::placeholder {
+      color: var(--placeholder-color);
+    }
+    &:focus {
+      border: 2px solid rgba(70, 98, 255, 0.527);
+      padding: 9px;
+    }
   }
   textarea {
-    &:focus {
-      border: 2px solid rgba(70, 98, 255, 0.527);
-      padding: 9px;
-    }
     display: block;
     padding: 10px;
     font-size: 1rem;
     margin-bottom: 12px;
     width: 100%;
-    border: 1px solid rgb(199, 199, 199);
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    @include border-radius(5px);
     outline: none;
+    &:focus {
+      border: 2px solid rgba(70, 98, 255, 0.527);
+      padding: 9px;
+    }
   }
   button {
-    &:hover {
-      color: white;
-      background-color: rgb(1, 170, 1);
-    }
-
-    &.blue {
-      background-color: $main-blue;
-    }
-
-    &.blue:hover {
-      background-color: rgb(87, 112, 255);
-    }
     outline: none;
     padding: 10px 20px;
     display: block;
     margin: 0 auto;
     font-size: 1.1rem;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    transition: 0.25s background-color;
-    -webkit-transition: 0.25s background-color;
-    -moz-transition: 0.25s background-color;
-    -ms-transition: 0.25s background-color;
-    -o-transition: 0.25s background-color;
+    @include border-radius(5px);
+    @include transition(0.25s background-color);
     cursor: pointer;
     max-width: 250px;
     width: 100%;
     border: none;
-    color: rgb(255, 255, 255);
-    background-color: rgb(0, 136, 0);
+    color: var(--text-color);
+    background-color: var(--main-green);
+    &:hover {
+      color: white;
+      background-color: var(--hover-green);
+    }
+
+    &.blue {
+      background-color: var(--main-blue);
+    }
+
+    &.blue:hover {
+      background-color: var(--hover-blue);
+    }
   }
 }
 
@@ -281,11 +319,7 @@ body {
   div {
     display: flex;
     justify-content: center;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    @include border-radius(5px);
     padding: 15px 50px;
     position: relative;
     cursor: pointer;
@@ -301,7 +335,6 @@ body {
     outline: none;
     background-color: transparent;
     font-size: 1.4rem;
-    color: rgb(0, 0, 0);
     height: 46px;
     width: 46px;
     display: flex;
@@ -314,12 +347,20 @@ body {
     color: rgb(0, 133, 0);
     background-color: rgb(244, 255, 240);
     border: 1px solid rgb(0, 133, 0);
+
+    h2 {
+      color: rgb(0, 133, 0);
+    }
   }
 
   .error {
     color: rgb(230, 0, 0);
     border: 1px solid rgb(230, 0, 0);
     background-color: rgb(255, 238, 238);
+
+    h2 {
+      color: rgb(230, 0, 0);
+    }
   }
 }
 
@@ -341,6 +382,7 @@ body {
   width: 200px;
   margin: 0 auto;
   margin-bottom: 20px;
+
   img {
     width: 200px;
     height: 200px;
@@ -361,16 +403,11 @@ body {
   padding: 10px;
 
   > div {
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    box-shadow: var(--main-shadow);
     padding: 10px;
     width: 100%;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    background-color: white;
+    @include border-radius(5px);
+    background-color: var(--card-background);
 
     @media (min-width: 600px) {
       max-width: 600px;
@@ -396,7 +433,7 @@ body {
   text-align: center;
   font-size: 1.4rem;
   margin: 10px 0;
-  color: $main-blue;
+  color: var(--blue-text);
   word-break: break-all;
 }
 
@@ -423,11 +460,8 @@ body {
 }
 
 .edit-button {
-  &:hover {
-    background-color: rgb(87, 112, 255);
-  }
   display: block;
-  background-color: $main-blue;
+  background-color: var(--main-blue);
   text-decoration: none;
   color: white;
   width: 100%;
@@ -437,16 +471,12 @@ body {
   max-width: 200px;
   padding: 10px 20px;
   font-size: 1.1rem;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
-  transition: 0.25s background-color;
-  -webkit-transition: 0.25s background-color;
-  -moz-transition: 0.25s background-color;
-  -ms-transition: 0.25s background-color;
-  -o-transition: 0.25s background-color;
+  @include border-radius(5px);
+  @include transition(0.25s background-color);
+
+  &:hover {
+    background-color: var(--hover-blue);
+  }
 
   &.posts {
     margin: 12px auto;
@@ -473,24 +503,20 @@ body {
   }
 
   a {
-    &:hover {
-      background-color: rgba(70, 98, 255, 0.075);
-    }
-
     text-decoration: none;
     color: black;
     display: block;
     width: 90%;
     padding: 5px;
     margin: 5px auto;
-    border: 1px solid rgb(226, 226, 226);
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border: 1px solid var(--card-border);
+    @include border-radius(5px);
+    box-shadow: var(--main-shadow);
+
+    &:hover {
+      background-color: rgba(34, 67, 255, 0.198);
+    }
+
     h2 {
       text-align: center;
       font-size: 1rem;
@@ -530,15 +556,10 @@ body {
     padding: 5px;
     margin: 5px;
     margin: 5px auto;
-    border: 1px solid rgb(226, 226, 226);
-    background-color: white;
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-      rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    border: 1px solid var(--card-border);
+    background-color: var(--card-background);
+    @include border-radius(5px);
+    box-shadow: var(--main-shadow);
   }
 
   @media (min-width: 600px) {
@@ -569,11 +590,11 @@ body {
 
   a {
     text-decoration: none;
-    color: black;
+    color: var(--text-color);
   }
 
   p {
-    color: rgb(100, 100, 100);
+    color: rgb(143, 143, 143);
     font-size: 0.9rem;
   }
 
@@ -589,7 +610,7 @@ body {
 
 .post-likes {
   margin: 10px 6px;
-  color: $main-blue;
+  color: var(--blue-text);
   font-size: 1.1rem;
 }
 
@@ -599,33 +620,30 @@ body {
 }
 
 .post-button {
-  &:hover {
-    background-color: rgb(87, 112, 255);
-  }
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: $main-blue;
+  background-color: var(--main-blue);
   border: none;
   outline: none;
   color: white;
   font-size: 1rem;
   padding: 10px 20px;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+  @include border-radius(5px);
   cursor: pointer;
   min-width: 100px;
-  max-width: 30vw;
-  transition: 0.25s background-color;
 
+  max-width: 30vw;
+  @include transition(0.25s background-color);
+
+  &:hover {
+    background-color: var(--hover-blue);
+  }
   &.delete {
-    background-color: rgb(218, 58, 58);
+    background-color: var(--main-red);
 
     &:hover {
-      background-color: rgb(241, 71, 71);
+      background-color: var(--hover-red);
     }
   }
 
@@ -636,12 +654,8 @@ body {
 
 .post-comments {
   margin: 10px;
-  border: 1px solid rgb(207, 207, 207);
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+  border: 1px solid var(--card-border);
+  @include border-radius(5px);
 
   button {
     margin: 0 auto;
@@ -654,37 +668,30 @@ body {
   display: none;
   flex-wrap: wrap;
   padding: 3px;
-  border: 1px solid rgb(202, 202, 202);
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+  border: 1px solid var(--card-border);
+  @include border-radius(5px);
 
   form {
-    // width: 100%;
     width: calc(100% - 55px);
   }
 
   textarea {
-    &:focus {
-      border: 2px solid rgba(70, 98, 255, 0.527);
-      padding: 9px;
-    }
     display: block;
     padding: 10px;
     font-size: 1rem;
     margin: 3px;
     margin-bottom: 12px;
     width: calc(100% - 5px);
-    border: 1px solid rgb(199, 199, 199);
-    border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-background);
+    @include border-radius(5px);
     outline: none;
+    &:focus {
+      border: 2px solid rgba(70, 98, 255, 0.527);
+      padding: 9px;
+    }
   }
+
   img {
     width: 55px;
     padding: 3px;
@@ -717,16 +724,14 @@ body {
 }
 
 input[type="file"] {
+  cursor: pointer;
+  padding: 1px;
+  @include transition(0.25s opacity);
+  @include border-radius(5px);
+
   &:hover {
     opacity: 0.9;
   }
-  cursor: pointer;
-  padding: 1px;
-  transition: 0.25s opacity;
-  -webkit-transition: 0.25s opacity;
-  -moz-transition: 0.25s opacity;
-  -ms-transition: 0.25s opacity;
-  -o-transition: 0.25s opacity;
 }
 
 .form input[type="file"]:focus {
@@ -735,21 +740,17 @@ input[type="file"] {
 
 input::file-selector-button {
   color: white;
-  background-color: $main-blue;
+  background-color: var(--main-blue);
   padding: 10px 20px;
   margin-right: 10px;
   border: 0;
   outline: 0;
-  border-radius: 5px;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  -ms-border-radius: 5px;
-  -o-border-radius: 5px;
+  @include border-radius(5px);
   cursor: pointer;
 }
 
 input::file-selector-button:hover {
-  background-color: rgb(87, 112, 255);
+  background-color: var(--hover-blue);
 }
 
 input::-webkit-calendar-picker-indicator {

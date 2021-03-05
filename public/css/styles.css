@@ -131,11 +131,62 @@ table {
 }
 
 body {
-  background-color: rgba(190, 190, 190, 0.082);
+  --main-font: "Inter", sans-serif;
+  --logo-font: "Oswald", sans-serif;
+  --main-blue: rgb(70, 98, 255);
+  --hover-blue: rgb(92, 116, 255);
+  --blue-text: rgb(70, 98, 255);
+  --main-red: rgb(224, 36, 36);
+  --hover-red: rgb(241, 71, 71);
+  --main-green: rgb(0, 149, 0);
+  --hover-green: rgb(0, 179, 0);
+  --main-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  --main-background: rgba(190, 190, 190, 0.082);
+  --card-background: white;
+  --text-color: rgb(20, 20, 20);
+  --card-border: rgb(212, 212, 212);
+  --input-background: rgb(251, 251, 251);
+  --placeholder-color: rgb(143, 143, 143);
+  --input-border: rgb(199, 199, 199);
+}
+
+body.dark-mode {
+  --main-blue: rgb(48, 63, 159);
+  --hover-blue: rgb(64, 82, 199);
+  --blue-text: rgb(89, 171, 255);
+  --main-red: rgb(165, 26, 26);
+  --hover-red: rgb(195, 29, 29);
+  --main-green: rgb(0, 95, 0);
+  --hover-green: rgb(0, 115, 0);
+  --main-shadow: rgba(77, 76, 76, 0.3) 0px 1px 2px 0px,
+    rgb(73, 73, 73, 0.15) 0px 2px 6px 2px;
+  --main-background: rgb(20, 20, 20);
+  --card-background: rgb(41, 41, 41);
+  --text-color: rgb(230, 230, 230);
+  --card-border: rgb(71, 71, 71);
+  --input-background: rgb(56, 56, 56);
+  --placeholder-color: rgb(187, 187, 187);
+  --input-border: rgb(95, 95, 95);
+}
+
+#theme-button {
+  background-color: transparent;
+  border: none;
+  padding: 10px;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  cursor: pointer;
+}
+
+body {
+  background-color: var(--main-background);
 }
 body * {
   box-sizing: border-box;
-  font-family: "Inter", sans-serif;
+  font-family: var(--main-font);
+  color: var(--text-color);
 }
 
 .navbar-container {
@@ -146,14 +197,14 @@ body * {
 }
 
 .navbar {
-  background-color: #4662ff;
+  background-color: var(--main-blue);
   position: fixed;
   top: 0;
   left: 0;
   display: flex;
   width: 100%;
   margin-bottom: 20px;
-  outline: 1px solid white;
+  outline: 1px solid var(--main-background);
 }
 .navbar .mobile-menu {
   all: unset;
@@ -169,7 +220,7 @@ body * {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #4662ff;
+  background-color: var(--main-blue);
   width: 100vw;
   height: fit-content;
 }
@@ -219,7 +270,7 @@ body * {
 }
 .navbar > ul {
   display: flex;
-  border-bottom: 1px solid #4662ff;
+  border-bottom: 1px solid var(--main-blue);
   padding: 0 20px;
   width: 100%;
 }
@@ -242,7 +293,7 @@ body * {
   text-transform: uppercase;
 }
 .navbar .brand a {
-  font-family: "Oswald", sans-serif;
+  font-family: var(--logo-font);
   color: white;
   text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.514);
   font-size: 1.7rem;
@@ -257,7 +308,7 @@ body * {
   margin-left: auto;
 }
 .navbar a {
-  border-bottom: 4px solid #4662ff;
+  border-bottom: 4px solid var(--main-blue);
   text-decoration: none;
   color: white;
   display: block;
@@ -283,7 +334,8 @@ body * {
   padding: 10px;
 }
 .form-wrapper > div {
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  background-color: var(--card-background);
+  box-shadow: var(--main-shadow);
   padding: 10px;
   width: 100%;
   border-radius: 5px;
@@ -291,7 +343,6 @@ body * {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  background-color: white;
 }
 @media (min-width: 600px) {
   .form-wrapper > div {
@@ -302,7 +353,7 @@ body * {
   text-align: center;
   font-size: 1.4rem;
   margin: 10px 0;
-  color: #4662ff;
+  color: var(--blue-text);
 }
 
 .form label {
@@ -316,13 +367,17 @@ body * {
   font-size: 1rem;
   margin-bottom: 12px;
   width: 100%;
-  border: 1px solid #c7c7c7;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-background);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   outline: none;
+}
+.form input::placeholder {
+  color: var(--placeholder-color);
 }
 .form input:focus {
   border: 2px solid rgba(70, 98, 255, 0.527);
@@ -334,7 +389,8 @@ body * {
   font-size: 1rem;
   margin-bottom: 12px;
   width: 100%;
-  border: 1px solid #c7c7c7;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-background);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -366,18 +422,18 @@ body * {
   max-width: 250px;
   width: 100%;
   border: none;
-  color: white;
-  background-color: #008800;
+  color: var(--text-color);
+  background-color: var(--main-green);
 }
 .form button:hover {
   color: white;
-  background-color: #01aa01;
+  background-color: var(--hover-green);
 }
 .form button.blue {
-  background-color: #4662ff;
+  background-color: var(--main-blue);
 }
 .form button.blue:hover {
-  background-color: #5770ff;
+  background-color: var(--hover-blue);
 }
 
 .flash-message {
@@ -409,7 +465,6 @@ body * {
   outline: none;
   background-color: transparent;
   font-size: 1.4rem;
-  color: black;
   height: 46px;
   width: 46px;
   display: flex;
@@ -422,10 +477,16 @@ body * {
   background-color: #f4fff0;
   border: 1px solid #008500;
 }
+.flash-message .success h2 {
+  color: #008500;
+}
 .flash-message .error {
   color: #e60000;
   border: 1px solid #e60000;
   background-color: #ffeeee;
+}
+.flash-message .error h2 {
+  color: #e60000;
 }
 
 .image-container {
@@ -465,7 +526,7 @@ body * {
   padding: 10px;
 }
 .section-wrapper > div {
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  box-shadow: var(--main-shadow);
   padding: 10px;
   width: 100%;
   border-radius: 5px;
@@ -473,7 +534,7 @@ body * {
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  background-color: white;
+  background-color: var(--card-background);
 }
 @media (min-width: 600px) {
   .section-wrapper > div {
@@ -493,7 +554,7 @@ body * {
   text-align: center;
   font-size: 1.4rem;
   margin: 10px 0;
-  color: #4662ff;
+  color: var(--blue-text);
   word-break: break-all;
 }
 
@@ -518,7 +579,7 @@ body * {
 
 .edit-button {
   display: block;
-  background-color: #4662ff;
+  background-color: var(--main-blue);
   text-decoration: none;
   color: white;
   width: 100%;
@@ -540,7 +601,7 @@ body * {
   -o-transition: 0.25s background-color;
 }
 .edit-button:hover {
-  background-color: #5770ff;
+  background-color: var(--hover-blue);
 }
 .edit-button.posts {
   margin: 12px auto;
@@ -571,16 +632,16 @@ body * {
   width: 90%;
   padding: 5px;
   margin: 5px auto;
-  border: 1px solid #e2e2e2;
+  border: 1px solid var(--card-border);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  box-shadow: var(--main-shadow);
 }
 .friends-grid a:hover {
-  background-color: rgba(70, 98, 255, 0.075);
+  background-color: rgba(34, 67, 255, 0.198);
 }
 .friends-grid a h2 {
   text-align: center;
@@ -622,14 +683,14 @@ body * {
   padding: 5px;
   margin: 5px;
   margin: 5px auto;
-  border: 1px solid #e2e2e2;
-  background-color: white;
+  border: 1px solid var(--card-border);
+  background-color: var(--card-background);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
-  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  box-shadow: var(--main-shadow);
 }
 @media (min-width: 600px) {
   .posts-grid {
@@ -658,10 +719,10 @@ body * {
 }
 .post-header a {
   text-decoration: none;
-  color: black;
+  color: var(--text-color);
 }
 .post-header p {
-  color: #646464;
+  color: #8f8f8f;
   font-size: 0.9rem;
 }
 .post-header * {
@@ -675,7 +736,7 @@ body * {
 
 .post-likes {
   margin: 10px 6px;
-  color: #4662ff;
+  color: var(--blue-text);
   font-size: 1.1rem;
 }
 
@@ -688,7 +749,7 @@ body * {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #4662ff;
+  background-color: var(--main-blue);
   border: none;
   outline: none;
   color: white;
@@ -703,15 +764,19 @@ body * {
   min-width: 100px;
   max-width: 30vw;
   transition: 0.25s background-color;
+  -webkit-transition: 0.25s background-color;
+  -moz-transition: 0.25s background-color;
+  -ms-transition: 0.25s background-color;
+  -o-transition: 0.25s background-color;
 }
 .post-button:hover {
-  background-color: #5770ff;
+  background-color: var(--hover-blue);
 }
 .post-button.delete {
-  background-color: #da3a3a;
+  background-color: var(--main-red);
 }
 .post-button.delete:hover {
-  background-color: #f14747;
+  background-color: var(--hover-red);
 }
 .post-button svg {
   margin-right: 8px;
@@ -719,7 +784,7 @@ body * {
 
 .post-comments {
   margin: 10px;
-  border: 1px solid #cfcfcf;
+  border: 1px solid var(--card-border);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -736,7 +801,7 @@ body * {
   display: none;
   flex-wrap: wrap;
   padding: 3px;
-  border: 1px solid #cacaca;
+  border: 1px solid var(--card-border);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -753,7 +818,8 @@ body * {
   margin: 3px;
   margin-bottom: 12px;
   width: calc(100% - 5px);
-  border: 1px solid #c7c7c7;
+  border: 1px solid var(--input-border);
+  background-color: var(--input-background);
   border-radius: 5px;
   -webkit-border-radius: 5px;
   -moz-border-radius: 5px;
@@ -799,6 +865,11 @@ input[type=file] {
   -moz-transition: 0.25s opacity;
   -ms-transition: 0.25s opacity;
   -o-transition: 0.25s opacity;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
 }
 input[type=file]:hover {
   opacity: 0.9;
@@ -810,7 +881,7 @@ input[type=file]:hover {
 
 input::file-selector-button {
   color: white;
-  background-color: #4662ff;
+  background-color: var(--main-blue);
   padding: 10px 20px;
   margin-right: 10px;
   border: 0;
@@ -824,7 +895,7 @@ input::file-selector-button {
 }
 
 input::file-selector-button:hover {
-  background-color: #5770ff;
+  background-color: var(--hover-blue);
 }
 
 input::-webkit-calendar-picker-indicator {
