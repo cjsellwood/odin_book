@@ -44,7 +44,6 @@ module.exports.loginForm = (req, res) => {
 module.exports.loginUser = (req, res) => {
   const url = req.session.returnTo || "/";
 
-  console.log(req);
   // Reset return to
   delete req.session.returnTo;
   req.flash("success", "Logged In");
