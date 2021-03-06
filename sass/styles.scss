@@ -1,6 +1,6 @@
 @use "reset";
 
-body {
+html {
   --main-font: "Inter", sans-serif;
   --logo-font: "Oswald", sans-serif;
   --main-blue: rgb(70, 98, 255);
@@ -22,7 +22,7 @@ body {
   --input-border: rgb(199, 199, 199);
 }
 
-body.dark-mode {
+html.dark-mode {
   --main-blue: rgb(48, 63, 159);
   --hover-blue: rgb(64, 82, 199);
   --blue-text: rgb(89, 171, 255);

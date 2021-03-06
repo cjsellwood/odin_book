@@ -1,16 +1,16 @@
 // Dark mode toggle button
-const theme = localStorage.getItem("theme");
+// const theme = localStorage.getItem("theme");
 const darkBtn = document.querySelector("#theme-button");
 if (theme === "dark") {
-  document.body.classList.add("dark-mode");
+  document.documentElement.classList.add("dark-mode");
   darkBtn.setAttribute("data-theme", "light");
 } else {
-  document.body.classList.remove("dark-mode");
+  document.documentElement.classList.remove("dark-mode");
   darkBtn.setAttribute("data-theme", "dark")
 }
 darkBtn.addEventListener("click", function () {
-  document.body.classList.toggle("dark-mode");
-  if (darkBtn.getAttribute("data-theme") === "light") {
+  document.documentElement.classList.toggle("dark-mode");
+  if (document.documentElement.getAttribute("data-theme") === "light") {
     darkBtn.setAttribute("data-theme", "dark");
     localStorage.setItem("theme", "light");
   } else {

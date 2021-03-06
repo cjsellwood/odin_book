@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const User = require("./models/user");
 const faker = require("faker");
 const Post = require("./models/post");
-const Comment = require("./models/comment")
+const Comment = require("./models/comment");
 const bcrypt = require("bcrypt");
 
 // Connect to database
@@ -19,7 +19,7 @@ db.once("open", () => {
 });
 
 // Generate random users
-const seedUsers = async () => {
+const seedDb = async () => {
   await Post.deleteMany({});
   await Comment.deleteMany({});
   await User.deleteMany({});
@@ -42,7 +42,7 @@ const seedUsers = async () => {
         new Date(0),
         new Date(Date.now() - 1000 * 60 * 60 * 24 * 365 * 18)
       ),
-      avatarUrl: `/images/avatar-${(i % 16) + 1}.webp`,
+      avatarUrl: `/images/sampleAvatars/avatar-${(i % 16) + 1}.webp`,
     });
     // await user.save();
     users.push(user);
@@ -102,9 +102,67 @@ const seedUsers = async () => {
     await user.save();
   }
 
+  // Create posts
+  const posts = [];
+  const allComments = [];
+  for (let i = 0; i < 200; i++) {
+    const authorIndex = Math.floor(Math.random() * 48);
+    const authorId = users[authorIndex]._id;
+    const postDate = faker.date.between(
+      users[authorIndex].joinDate,
+      new Date(Date.now())
+    );
 
+    
+    // Create likes for post
+    const likesQuantity = Math.floor(Math.random() * (users[authorIndex].friends.length + 1));
+    const likes = [];
+    while (likes.length < likesQuantity - 1) {
+      const friendIndex = Math.floor(Math.random() * (users[authorIndex].friends.length));
+      const friendId = users[authorIndex].friends[friendIndex]._id;
+      if (likes.includes(friendId)) {
+        continue;
+      }
+      likes.push(friendId);
+    }
+
+    // Create comments for post
+    const commentsQuantity = Math.floor(Math.random() * 10);
+    const comments = [];
+    while (comments.length < commentsQuantity) {
+      const friendIndex = Math.floor(Math.random() * (users[authorIndex].friends.length));
+      const friendId = users[authorIndex].friends[friendIndex]._id;
+      const comment = new Comment({
+        author: friendId,
+        content: faker.lorem.text(),
+        date: faker.date.between(postDate, new Date(Date.now())),
+      });
+      comments.push(comment._id);
+      allComments.push(comment);
+    }
+
+    const post = new Post({
+      author: authorId,
+      content: faker.lorem.text(),
+      date: postDate,
+      imageUrl: `/images/samplePosts/post-${
+        Math.floor(Math.random() * 25) + 1
+      }.webp`,
+      likes,
+      comments,
+    });
+    posts.push(post);
+  }
+
+  for (let post of posts) {
+    await post.save();
+  }
+
+  for (let comment of allComments) {
+    await comment.save();
+  }
 };
 
-seedUsers().then(() => {
+seedDb().then(() => {
   mongoose.connection.close();
 });
