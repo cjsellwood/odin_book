@@ -1,12 +1,11 @@
 // Dark mode toggle button
-// const theme = localStorage.getItem("theme");
 const darkBtn = document.querySelector("#theme-button");
 if (theme === "dark") {
   document.documentElement.classList.add("dark-mode");
   darkBtn.setAttribute("data-theme", "light");
 } else {
   document.documentElement.classList.remove("dark-mode");
-  darkBtn.setAttribute("data-theme", "dark")
+  darkBtn.setAttribute("data-theme", "dark");
 }
 darkBtn.addEventListener("click", function () {
   document.documentElement.classList.toggle("dark-mode");
@@ -40,8 +39,22 @@ if (flash) {
   flash.addEventListener("click", dismissFlash);
 }
 
+// Login as demo user
+const demoBtn = document.querySelector("#demo-button");
+if (demoBtn) {
+  // When button pressed, submit form with demo credentials
+  demoBtn.addEventListener("click", function () {
+    const loginForm = document.querySelector("form");
+    const emailInput = loginForm.querySelector("input[name='email'");
+    const passwordInput = loginForm.querySelector("input[name='password'");
+    emailInput.value = `test${Math.floor(Math.random() * 48) + 1}@test.com`;
+    passwordInput.value = "testuser";
+    loginForm.submit();
+  });
+}
+
 // Validate inputs
-const forms = document.querySelectorAll("form");
+const forms = document.querySelectorAll("form[novalidate]");
 forms.forEach((form) => {
   form.addEventListener("submit", function (e) {
     const validity = form.checkValidity();
@@ -81,7 +94,6 @@ forms.forEach((form) => {
       }
 
       // Add validation message after
-      console.log(inputElements, messageElements);
       for (let i = 0; i < inputElements.length; i++) {
         messageElements[i].textContent = inputElements[i].validationMessage;
         if (inputElements[i].validationMessage === "") {
