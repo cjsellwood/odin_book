@@ -47,7 +47,6 @@ const seedDb = async () => {
     // await user.save();
     users.push(user);
   }
-  console.log(users);
 
   // Add friends to users
   for (let i = 0; i < users.length; i++) {
@@ -94,18 +93,13 @@ const seedDb = async () => {
 
   // Save users
   for (let user of users) {
-    console.log(
-      user.friends.length,
-      user.sentRequests.length,
-      user.friendRequests.length
-    );
     await user.save();
   }
 
   // Create posts
   const posts = [];
   const allComments = [];
-  for (let i = 0; i < 200; i++) {
+  for (let i = 0; i < 100; i++) {
     const authorIndex = Math.floor(Math.random() * 48);
     const authorId = users[authorIndex]._id;
     const postDate = faker.date.between(
