@@ -44,6 +44,7 @@ module.exports.loginForm = (req, res) => {
 module.exports.loginUser = (req, res) => {
   const url = req.session.returnTo || "/";
 
+  console.log(req);
   // Reset return to
   delete req.session.returnTo;
   req.flash("success", "Logged In");
@@ -67,7 +68,7 @@ module.exports.registerUser = catchAsync(async (req, res, next) => {
   const { firstName, lastName, email, password, confirmPassword } = req.body;
   if (password !== confirmPassword) {
     req.flash("error", "Passwords do not match");
-    res.redirect("/register");
+    return res.redirect("/register");
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);

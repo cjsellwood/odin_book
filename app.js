@@ -116,8 +116,13 @@ passport.use(
     },
     async (email, password, done) => {
       const user = await User.findOne({ email });
+      // Return error if user not in database
+      if (!user) {
+        return done(null, false, { message: "Incorrect username or password" });
+      }
+      // Return error if password not correct
       const isValid = await bcrypt.compare(password, user.password);
-      if (!user || !isValid) {
+      if (!isValid) {
         return done(null, false, { message: "Incorrect username or password" });
       }
       return done(null, user);
@@ -191,4 +196,5 @@ app.listen(port, () => {
   console.log("Port " + port);
 });
 
-// client validation
+// Production database
+// host, env, procfile

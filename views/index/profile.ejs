@@ -33,6 +33,12 @@
             <%= user.birthDate ? user.birthDate.toLocaleDateString() : "" %>
           </td>
         </tr>
+        <tr>
+          <th>Member Since</th>
+          <td>
+            <%= user.joinDate.toLocaleDateString() %>
+          </td>
+        </tr>
       </table>
     </div>
     <a class="edit-button" href="/profile/edit">Edit</a>
