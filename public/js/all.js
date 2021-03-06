@@ -1,20 +1,15 @@
 // Dark mode toggle button
 const darkBtn = document.querySelector("#theme-button");
-if (theme === "dark") {
-  document.documentElement.classList.add("dark-mode");
-  darkBtn.setAttribute("data-theme", "light");
-} else {
-  document.documentElement.classList.remove("dark-mode");
-  darkBtn.setAttribute("data-theme", "dark");
-}
 darkBtn.addEventListener("click", function () {
-  document.documentElement.classList.toggle("dark-mode");
-  if (document.documentElement.getAttribute("data-theme") === "light") {
-    darkBtn.setAttribute("data-theme", "dark");
-    localStorage.setItem("theme", "light");
-  } else {
-    darkBtn.setAttribute("data-theme", "light");
+  // document.documentElement.classList.toggle("dark-mode");
+  if (theme === "light") {
+    theme = "dark";
+    document.documentElement.classList.add("dark-mode");
     localStorage.setItem("theme", "dark");
+  } else {
+    theme = "light";
+    document.documentElement.classList.remove("dark-mode");
+    localStorage.setItem("theme", "light");
   }
 });
 

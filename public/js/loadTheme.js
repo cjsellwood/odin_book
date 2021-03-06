@@ -1,9 +1,9 @@
 // Dark mode toggle button
-const theme = localStorage.getItem("theme");
+let theme = localStorage.getItem("theme");
 if (theme === "dark") {
-  document.documentElement.setAttribute("data-theme", "light")
+  document.documentElement.setAttribute("data-theme", "dark")
   document.documentElement.classList.add("dark-mode");
 } else {
-  document.documentElement.setAttribute("date-theme", "dark");
+  document.documentElement.setAttribute("date-theme", "light");
   document.documentElement.classList.remove("dark-mode");
 }
