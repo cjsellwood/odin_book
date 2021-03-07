@@ -16,6 +16,7 @@ const bcrypt = require("bcrypt");
 const User = require("./models/user");
 const flash = require("connect-flash");
 const session = require("express-session");
+const MongoStore = require("connect-mongo").default;
 const compression = require("compression");
 const helmet = require("helmet");
 const ExpressError = require("./utils/ExpressError");
@@ -26,7 +27,11 @@ const postsRouter = require("./routes/posts");
 const friendsRouter = require("./routes/friends");
 
 // Connect to database
-const dbUrl = "mongodb://localhost/odin_book";
+let dbUrl = process.env.DB_URL;
+if (process.env.NODE_ENV !== "production") {
+  dbUrl = "mongodb://localhost/odin_book";
+}
+
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -84,9 +89,18 @@ app.use(
   })
 );
 
-// Sessions configuration
 const sessionSecret = process.env.SESSION_SECRET || "sessionsecret";
+
+// Session store in mongo db
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  secret: sessionSecret,
+  touchAfter: 24 * 3600,
+});
+
+// Sessions configuration
 const sessionConfig = {
+  store,
   secret: sessionSecret,
   name: "odin_book",
   resave: false,
@@ -154,20 +168,20 @@ app.use((req, res, next) => {
   next();
 });
 
-// Live reload browser for dev
-const livereload = require("livereload");
-const liveReloadServer = livereload.createServer();
-liveReloadServer.watch(path.join(__dirname, "public"));
-liveReloadServer.watch(path.join(__dirname, "views"));
+// Live reload browser for dev browser auto reload
+// const livereload = require("livereload");
+// const liveReloadServer = livereload.createServer();
+// liveReloadServer.watch(path.join(__dirname, "public"));
+// liveReloadServer.watch(path.join(__dirname, "views"));
 
-const connectLivereload = require("connect-livereload");
-app.use(connectLivereload());
+// const connectLivereload = require("connect-livereload");
+// app.use(connectLivereload());
 
-liveReloadServer.server.once("connection", () => {
-  setTimeout(() => {
-    liveReloadServer.refresh("/");
-  }, 100);
-});
+// liveReloadServer.server.once("connection", () => {
+//   setTimeout(() => {
+//     liveReloadServer.refresh("/");
+//   }, 100);
+// });
 
 // Use imported routes
 app.use("/", indexRouter);
@@ -195,6 +209,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log("Port " + port);
 });
-
-// Production database
-// host, env, procfile

@@ -2,7 +2,7 @@
 const darkBtn = document.querySelector("#theme-button");
 darkBtn.addEventListener("click", function () {
   // document.documentElement.classList.toggle("dark-mode");
-  if (theme === "light") {
+  if (theme === "light" || !theme) {
     theme = "dark";
     document.documentElement.classList.add("dark-mode");
     localStorage.setItem("theme", "dark");

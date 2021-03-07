@@ -9,41 +9,39 @@
       <a href="/friends/<%= friend._id %>">
         <h2><%= friend.fullName %></h2>
         <div class="image-container">
-          <img src="<%= friend.avatarUrl %>" />
+          <img src="<%= friend.avatarUrl %>" alt="avatar" loading="lazy" />
         </div>
       </a>
       <% } %>
     </div>
-    <% } %> 
-    <% if (requests.length) {%>
+    <% } %> <% if (requests.length) {%>
     <h1 class="section-title">Received Requests</h1>
     <div class="friends-grid">
       <% for (let request of requests) { %>
       <a href="/friends/<%= request._id %>">
         <h2><%= request.fullName %></h2>
         <div class="image-container">
-          <img src="<%= request.avatarUrl %>" />
+          <img src="<%= request.avatarUrl %>" alt="avatar" loading="lazy" />
         </div>
         <form class="form" action="/friends/accept" method="POST">
           <input type="hidden" name="requesterId" value="<%= request._id%>" />
-          <button class="blue">Accept Friend Request</button>
+          <button class="blue" aria-label="accept friend request">Accept Friend Request</button>
         </form>
       </a>
       <% } %>
     </div>
-    <% } %> 
-    <% if (sentRequests.length) { %>
+    <% } %> <% if (sentRequests.length) { %>
     <h1 class="section-title">Sent Requests</h1>
     <div class="friends-grid">
       <% for (let sentRequest of sentRequests) { %>
       <a href="/friends/<%= sentRequest._id %>">
         <h2><%= sentRequest.fullName %></h2>
         <div class="image-container">
-          <img src="<%= sentRequest.avatarUrl %>" />
+          <img src="<%= sentRequest.avatarUrl %>" alt="avatar" loading="lazy" />
         </div>
         <form class="form" action="/friends/cancel" method="POST">
           <input type="hidden" name="personId" value="<%= sentRequest._id%>" />
-          <button class="blue">Cancel Friend Request</button>
+          <button class="blue" aria-label="cancel friend request">Cancel Friend Request</button>
         </form>
       </a>
       <% } %>

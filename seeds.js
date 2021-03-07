@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== "production") {
+  require("dotenv").config();
+}
+
 const mongoose = require("mongoose");
 const User = require("./models/user");
 const faker = require("faker");
@@ -6,7 +10,8 @@ const Comment = require("./models/comment");
 const bcrypt = require("bcrypt");
 
 // Connect to database
-const dbUrl = "mongodb://localhost/odin_book";
+// const dbUrl = "mongodb://localhost/odin_book";
+const dbUrl = process.env.DB_URL;
 mongoose.connect(dbUrl, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -107,12 +112,15 @@ const seedDb = async () => {
       new Date(Date.now())
     );
 
-    
     // Create likes for post
-    const likesQuantity = Math.floor(Math.random() * (users[authorIndex].friends.length + 1));
+    const likesQuantity = Math.floor(
+      Math.random() * (users[authorIndex].friends.length + 1)
+    );
     const likes = [];
     while (likes.length < likesQuantity - 1) {
-      const friendIndex = Math.floor(Math.random() * (users[authorIndex].friends.length));
+      const friendIndex = Math.floor(
+        Math.random() * users[authorIndex].friends.length
+      );
       const friendId = users[authorIndex].friends[friendIndex]._id;
       if (likes.includes(friendId)) {
         continue;
@@ -123,14 +131,23 @@ const seedDb = async () => {
     // Create comments for post
     const commentsQuantity = Math.floor(Math.random() * 10);
     const comments = [];
+    let lastCommentDate = postDate;
     while (comments.length < commentsQuantity) {
-      const friendIndex = Math.floor(Math.random() * (users[authorIndex].friends.length));
+      const friendIndex = Math.floor(
+        Math.random() * users[authorIndex].friends.length
+      );
       const friendId = users[authorIndex].friends[friendIndex]._id;
+      // Make sure comments added in chronological order
+      const commentDate = faker.date.between(
+        lastCommentDate,
+        new Date(Date.now())
+      );
       const comment = new Comment({
         author: friendId,
         content: faker.lorem.text(),
-        date: faker.date.between(postDate, new Date(Date.now())),
+        date: commentDate,
       });
+      lastCommentDate = commentDate;
       comments.push(comment._id);
       allComments.push(comment);
     }

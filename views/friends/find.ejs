@@ -8,10 +8,10 @@
         <h2><%= person.fullName %></h2>
         <div>
           <div class="image-container">
-            <img src="<%= person.avatarUrl %>" alt="Profile image"/>
+            <img src="<%= person.avatarUrl %>" alt="Profile image"  loading="lazy"/>
           </div>
           <form class="form" action="/friends/<%= person._id %>/request" method="POST">
-            <button class="blue">Send Friend Request</button>
+            <button class="blue" aria-label="send friend request">Send Friend Request</button>
           </form>
         </div>
       </a>

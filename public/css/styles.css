@@ -141,11 +141,12 @@ html {
   --main-green: rgb(0, 149, 0);
   --hover-green: rgb(0, 179, 0);
   --main-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-    rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+  rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
   --main-background: rgba(190, 190, 190, 0.082);
   --card-background: white;
   --text-color: rgb(20, 20, 20);
   --text-button: white;
+  --date-color: rgb(100, 100, 100);
   --card-border: rgb(212, 212, 212);
   --input-background: rgb(251, 251, 251);
   --placeholder-color: rgb(143, 143, 143);
@@ -165,6 +166,7 @@ html.dark-mode {
   --main-background: rgb(20, 20, 20);
   --card-background: rgb(41, 41, 41);
   --text-color: rgb(230, 230, 230);
+  --date-color: rgb(150, 150, 150);
   --card-border: rgb(71, 71, 71);
   --input-background: rgb(56, 56, 56);
   --placeholder-color: rgb(187, 187, 187);
@@ -723,7 +725,7 @@ body * {
   color: var(--text-color);
 }
 .post-header p {
-  color: #8f8f8f;
+  color: var(--date-color);
   font-size: 0.9rem;
 }
 .post-header * {

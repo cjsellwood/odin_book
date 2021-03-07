@@ -3,7 +3,7 @@
   <div>
     <h1 class="section-title">Your Profile</h1>
     <div class="image-container">
-      <img src="<%= user.avatarUrl %>" />
+      <img src="<%= user.avatarUrl %>" alt="avatar" />
     </div>
     <div>
       <table class="profile-table">
@@ -35,9 +35,7 @@
         </tr>
         <tr>
           <th>Member Since</th>
-          <td>
-            <%= user.joinDate.toLocaleDateString() %>
-          </td>
+          <td><%= user.joinDate.toLocaleDateString() %></td>
         </tr>
       </table>
     </div>
@@ -52,7 +50,11 @@
       <header class="post-header">
         <div>
           <a href="/friends/<%= post.author._id %>">
-            <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+            <img
+              src="<%= post.author.avatarUrl %>"
+              alt="avatar"
+              loading="lazy"
+            />
           </a>
         </div>
         <div>
@@ -65,7 +67,7 @@
       <p class="post-content"><%= post.content %></p>
       <% if (post.imageUrl) { %>
       <div class="image-container">
-        <img src="<%= post.imageUrl %>" />
+        <img src="<%= post.imageUrl %>" alt="post image" loading="lazy" />
       </div>
       <% } %> <% if (post.likes.length) { %>
       <p class="post-likes">
@@ -75,17 +77,21 @@
       <div class="post-buttons">
         <% if (post.likes.includes(currentUser._id)) { %>
         <form action="/posts/<%= post._id %>/unlike" method="POST">
-          <button class="post-button">Liked</button>
+          <button class="post-button" aria-label="unlike">Liked</button>
         </form>
         <% } else { %>
         <form action="/posts/<%= post._id %>/like" method="POST">
-          <button class="post-button">Like</button>
+          <button class="post-button" aria-label="like">Like</button>
         </form>
         <% } %>
-        <button class="post-button comment-button">Comment</button>
+        <button class="post-button comment-button" aria-label="add comment">
+          Comment
+        </button>
         <% if (currentUser._id.toString() === post.author._id.toString()) { %>
         <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-          <button class="post-button delete">Delete</button>
+          <button class="post-button delete" aria-label="delete post">
+            Delete
+          </button>
         </form>
         <% } %>
       </div>
@@ -94,7 +100,10 @@
         <header class="post-header">
           <div>
             <a href="/friends/<%= comment.author._id %>">
-              <img src="<%= comment.author.avatarUrl %>" alt="avatar"
+              <img
+                src="<%= comment.author.avatarUrl %>"
+                alt="avatar"
+                loading="lazy"
             /></a>
           </div>
           <div>
@@ -111,16 +120,20 @@
           action="/posts/<%= post._id %>/comment/<%= comment._id %>?_method=DELETE"
           method="POST"
         >
-          <button class="post-button delete">Delete</button>
+          <button class="post-button delete" aria-label="delete comment">
+            Delete
+          </button>
         </form>
         <% }%>
       </div>
       <% } %> <% if (post.comments.length > 2) { %>
-      <button class="post-button add-comment">Add Comment</button>
+      <button class="post-button add-comment" aria-label="add comment">
+        Add Comment
+      </button>
       <% } %>
       <div class="new-comment">
         <div>
-          <img src="<%= user.avatarUrl %>" alt="avatar" />
+          <img src="<%= user.avatarUrl %>" alt="avatar" loading="lazy" />
         </div>
         <form
           id="comment-form<%= post._id %>"
@@ -131,7 +144,11 @@
             <textarea name="content" id="content" type="text"></textarea>
           </div>
         </form>
-        <button form="comment-form<%= post._id %>" class="post-button">
+        <button
+          form="comment-form<%= post._id %>"
+          class="post-button"
+          aria-label="submit comment"
+        >
           Comment
         </button>
       </div>

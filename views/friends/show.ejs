@@ -3,7 +3,7 @@
   <div>
     <h1 class="section-title"><%= person.fullName %></h1>
     <div class="image-container">
-      <img src="<%= person.avatarUrl %>" />
+      <img src="<%= person.avatarUrl %>" alt="avatar" loading="lazy" />
     </div>
     <% if (isFriend) { %>
     <p class="person-details">
@@ -15,7 +15,7 @@
     </p>
     <form class="form" action="/friends/unfriend?_method=DELETE" method="POST">
       <input type="hidden" name="personId" value="<%= person._id%>" />
-      <button class="blue">Unfriend</button>
+      <button class="blue" aria-label="unfriend">Unfriend</button>
     </form>
     <% } else if (isPending){ %>
     <p class="person-details">
@@ -24,7 +24,7 @@
     </p>
     <form class="form" action="/friends/cancel" method="POST">
       <input type="hidden" name="personId" value="<%= person._id%>" />
-      <button class="blue">Cancel Friend Request</button>
+      <button class="blue" aria-label="cancel friend request">Cancel Friend Request</button>
     </form>
     <% } else {%>
     <p class="person-details">
@@ -36,7 +36,7 @@
       action="/friends/<%= person._id %>/request"
       method="POST"
     >
-      <button class="blue">Send Friend Request</button>
+      <button class="blue" aria-label="send friend request">Send Friend Request</button>
     </form>
     <% } %>
   </div>
@@ -49,7 +49,11 @@
       <header class="post-header">
         <div>
           <a href="/friends/<%= post.author._id %>">
-            <img src="<%= post.author.avatarUrl %>" alt="avatar" />
+            <img
+              src="<%= post.author.avatarUrl %>"
+              alt="avatar"
+              loading="lazy"
+            />
           </a>
         </div>
         <div>
@@ -62,7 +66,7 @@
       <p class="post-content"><%= post.content %></p>
       <% if (post.imageUrl) { %>
       <div class="image-container">
-        <img src="<%= post.imageUrl %>" />
+        <img src="<%= post.imageUrl %>" alt="post image" loading="lazy" />
       </div>
       <% } %> <% if (post.likes.length) { %>
       <p class="post-likes">
@@ -72,17 +76,17 @@
       <div class="post-buttons">
         <% if (post.likes.includes(currentUser._id)) { %>
         <form action="/posts/<%= post._id %>/unlike" method="POST">
-          <button class="post-button">Liked</button>
+          <button class="post-button" aria-label="unlike">Liked</button>
         </form>
         <% } else { %>
         <form action="/posts/<%= post._id %>/like" method="POST">
-          <button class="post-button">Like</button>
+          <button class="post-button" aria-label="like">Like</button>
         </form>
         <% } %>
-        <button class="post-button comment-button">Comment</button>
+        <button class="post-button comment-button" aria-label="new comment">Comment</button>
         <% if (currentUser._id.toString() === post.author._id.toString()) { %>
         <form action="/posts/<%= post._id %>?_method=DELETE" method="POST">
-          <button class="post-button delete">Delete</button>
+          <button class="post-button delete" aria-label="delete post">Delete</button>
         </form>
         <% } %>
       </div>
@@ -91,7 +95,10 @@
         <header class="post-header">
           <div>
             <a href="/friends/<%= comment.author._id %>">
-              <img src="<%= comment.author.avatarUrl %>" alt="avatar"
+              <img
+                src="<%= comment.author.avatarUrl %>"
+                alt="avatar"
+                loading="lazy"
             /></a>
           </div>
           <div>
@@ -113,11 +120,11 @@
         <% }%>
       </div>
       <% } %> <% if (post.comments.length > 2) { %>
-      <button class="post-button add-comment">Add Comment</button>
+      <button class="post-button add-comment" aria-label="add-comment">Add Comment</button>
       <% } %>
       <div class="new-comment">
         <div>
-          <img src="<%= user.avatarUrl %>" alt="avatar" />
+          <img src="<%= user.avatarUrl %>" alt="avatar" loading="lazy" />
         </div>
         <form
           id="comment-form<%= post._id %>"
@@ -130,7 +137,7 @@
             <div class="validate-msg"></div>
           </div>
         </form>
-        <button form="comment-form<%= post._id %>" class="post-button">
+        <button form="comment-form<%= post._id %>" class="post-button" aria-label="submit comment">
           Submit
         </button>
       </div>
